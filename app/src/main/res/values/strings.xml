@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Listsqre</string>
-    <string name="list_name">List name:</string>
     <string name="reset">reset</string>
     <string name="create">create</string>
-    <string name="description">Description:</string>
+    <string name="description">Type Something:</string>
     <string name="delete">delete</string>
 </resources>

@@ -5,6 +5,7 @@ import android.widget.Button
 import android.content.Intent
 import android.app.AlertDialog
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -12,8 +13,8 @@ import androidx.activity.ComponentActivity
 
 class MainActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
+    private lateinit var createTxt: EditText
     private lateinit var cardText: TextView
-    private lateinit var listName: EditText
     private lateinit var resetA: Button
     private lateinit var create: Button
     private lateinit var delete: Button
@@ -26,7 +27,6 @@ class MainActivity : ComponentActivity() {
         readFromDb(this)
         refreshView()
 
-        listName = findViewById(R.id.listname)
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
 
@@ -49,13 +49,23 @@ class MainActivity : ComponentActivity() {
         }
 
         create.setOnClickListener {
-            if(listName.text.toString().isNotEmpty()) {
-                createTextFile(this, listName.text.toString())
-                Listsqre.addNode(listName.text.toString())
-                feedIntoDb(this, Listsqre.getRecent().getId(), listName.text.toString())
+            val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
+            createTxt = dialogView.findViewById(R.id.dialogTxt)
+            val builder = AlertDialog.Builder(this)
+            builder.setView(dialogView)
+            builder.setPositiveButton("Create") { dialog, _ ->
+                val listName = createTxt.text.toString()
+                if(listName.isNotEmpty()) {
+                    createTextFile(this, listName)
+                    Listsqre.addNode(listName)
+                    feedIntoDb(this, Listsqre.getRecent().getId(), listName)
+                } else {
+                    // do nothing
+                }
+                refreshView()
+                dialog.dismiss()
             }
-            listName.setText("")
-            refreshView()
+            builder.create().show()
         }
     }
 

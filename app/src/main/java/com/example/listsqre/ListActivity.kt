@@ -3,7 +3,6 @@ package com.example.listsqre
 import android.os.Bundle
 import android.widget.Button
 import android.app.AlertDialog
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -12,13 +11,13 @@ import androidx.activity.ComponentActivity
 
 class ListActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
+    private lateinit var dialogTxt: TextView
+    private lateinit var createTxt: TextView
     private lateinit var cardText: TextView
-    private lateinit var dialgtxt: TextView
-    private lateinit var elemName: EditText
+    private lateinit var fileName: String
     private lateinit var resetA: Button
     private lateinit var create: Button
     private lateinit var delete: Button
-    private lateinit var fileName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,6 @@ class ListActivity : ComponentActivity() {
         readFromFile(this, fileName)
         refreshView()
 
-        elemName = findViewById(R.id.elemname)
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
 
@@ -52,12 +50,22 @@ class ListActivity : ComponentActivity() {
         }
 
         create.setOnClickListener {
-            if(elemName.text.toString().isNotEmpty()) {
-                ListOfListsqre.addNode(elemName.text.toString())
-                storeDataToFile(this, fileName, ListOfListsqre.getRecent().fileFormatted())
+            val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
+            createTxt = dialogView.findViewById(R.id.dialogTxt)
+            val builder = AlertDialog.Builder(this)
+            builder.setView(dialogView)
+            builder.setPositiveButton("Create") { dialog, _ ->
+                val elemName = createTxt.text.toString()
+                if(elemName.isNotEmpty()) {
+                    ListOfListsqre.addNode(elemName)
+                    updateTextFile(this, fileName)
+                } else {
+                    // do nothing
+                }
+                refreshView()
+                dialog.dismiss()
             }
-            elemName.setText("")
-            refreshView()
+            builder.create().show()
         }
     }
 
@@ -76,12 +84,12 @@ class ListActivity : ComponentActivity() {
             val card = layoutInflater.inflate(R.layout.listcardview, CardView(this))
             card.setOnClickListener {
                 val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
-                dialgtxt = dialogView.findViewById(R.id.dialogTxt)
-                dialgtxt.text = obj.getElemname()
+                dialogTxt = dialogView.findViewById(R.id.dialogTxt)
+                dialogTxt.text = obj.getElemname()
                 val builder = AlertDialog.Builder(this)
                 builder.setView(dialogView)
                 builder.setPositiveButton("Edit") { dialog, _ ->
-                    obj.setElemname(dialgtxt.text.toString())
+                    obj.setElemname(dialogTxt.text.toString())
                     updateTextFile(this, fileName)
                     refreshView()
                     dialog.dismiss()

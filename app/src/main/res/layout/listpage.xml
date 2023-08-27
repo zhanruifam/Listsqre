@@ -7,16 +7,19 @@
     android:gravity="center_horizontal|top"
     android:orientation="vertical">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="530dp"
+        android:layout_height="580dp"
         android:contentDescription="@string/app_name">
 
         <LinearLayout
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
-            android:layout_height="530dp"
-            android:gravity="top|center"
+            android:layout_height="580dp"
             android:orientation="vertical">
 
             <!-- created card views will be nested in cardContainer LinearLayout -->
@@ -24,19 +27,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <EditText
-        android:id="@+id/elemname"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:hint="@string/description"
-        android:minHeight="48dp"
-        android:textColor="#FFFFFF"
-        tools:ignore="TextSizeCheck" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +42,8 @@
             android:text="@string/reset"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/add"
@@ -62,7 +53,8 @@
             android:text="@string/create"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 
