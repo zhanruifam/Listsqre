@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/listsqre_icon"
+        android:icon="@mipmap/listsqre_new_ic"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/listsqre_icon"
+        android:roundIcon="@mipmap/listsqre_new_ic"
         android:supportsRtl="true"
         android:theme="@style/Theme.Listsqre"
         tools:targetApi="31">

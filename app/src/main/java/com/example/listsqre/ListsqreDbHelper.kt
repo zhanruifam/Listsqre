@@ -13,11 +13,13 @@ object TableTemplate : BaseColumns { // for listsqre table
     const val TABLE_NAME = "listsqre"
     const val COLUMN_NAME_ID = "idnum"
     const val COLUMN_NAME_TITLE = "listname"
+    const val COLUMN_NAME_TITLE_02 = "displayname"
 
     const val SQL_CREATE_ENTRIES =
         "CREATE TABLE $TABLE_NAME (" +
                 "$COLUMN_NAME_ID INTEGER PRIMARY KEY, " +
-                "$COLUMN_NAME_TITLE TEXT)"
+                "$COLUMN_NAME_TITLE TEXT, " +
+                "$COLUMN_NAME_TITLE_02)"
 
     const val SQL_DELETE_ENTRIES =
         "DROP TABLE IF EXISTS $TABLE_NAME"
@@ -49,12 +51,13 @@ class ListsqreDbHelper(context: Context) :
 
 // ----- global CRUD methods for handling database ----- //
 
-fun feedIntoDb(context: Context, Id: Int, listName: String) {
+fun feedIntoDb(context: Context, Id: Int, listName: String, displayName: String) {
     val dbHelper = ListsqreDbHelper(context)
     val db = dbHelper.writableDatabase
     val values = ContentValues().apply {
         put(TableTemplate.COLUMN_NAME_ID, Id)
         put(TableTemplate.COLUMN_NAME_TITLE, listName)
+        put(TableTemplate.COLUMN_NAME_TITLE_02, displayName)
     }
     db?.insert(TableTemplate.TABLE_NAME, null, values)
     db.close()
@@ -63,12 +66,12 @@ fun feedIntoDb(context: Context, Id: Int, listName: String) {
 fun readFromDb(context: Context) {
     val dbHelper = ListsqreDbHelper(context)
     val db = dbHelper.readableDatabase
-    val projection = arrayOf(TableTemplate.COLUMN_NAME_TITLE)
-    val cursor = db.query(TableTemplate.TABLE_NAME, projection, null, null, null, null, null)
+    val cursor = db.query(TableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
         while (moveToNext()) {
             val listname = getString(getColumnIndexOrThrow(TableTemplate.COLUMN_NAME_TITLE))
-            Listsqre.addNode(listname)
+            val dispname = getString(getColumnIndexOrThrow(TableTemplate.COLUMN_NAME_TITLE_02))
+            Listsqre.addNode(listname, dispname)
         }
     }
     cursor.close()
@@ -83,7 +86,7 @@ fun updateDb(context: Context, delTable: Boolean) {
     } else {
         db.delete(TableTemplate.TABLE_NAME, null, null)
         for(obj in Listsqre.getEntireList()) {
-            feedIntoDb(context, obj.getId(), obj.getListname())
+            feedIntoDb(context, obj.getId(), obj.getListname(), obj.getDisplayname())
         }
     }
     db.close()
