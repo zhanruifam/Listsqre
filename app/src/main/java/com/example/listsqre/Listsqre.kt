@@ -2,6 +2,7 @@ package com.example.listsqre
 
 class Listsqre {
     class Node(private var id: Int, private var listname: String) {
+        private lateinit var displayname: String
         fun getId(): Int {
             return id
         }
@@ -14,8 +15,12 @@ class Listsqre {
             id = newid
         }
 
-        fun setListname(newlistname: String) {
-            listname = newlistname
+        fun getDisplayname(): String {
+            return displayname
+        }
+
+        fun setDisplayname(newlistname: String) {
+            displayname = newlistname
         }
     }
 
@@ -24,8 +29,9 @@ class Listsqre {
         private var idGen: Int = 0
         private var mutableList = mutableListOf<Node>()
 
-        fun addNode(listname: String) {
+        fun addNode(listname: String, displayname: String) {
             mutableList.add(Node(idGen++, listname))
+            getRecent().setDisplayname(displayname)
         }
 
         fun deleteNode(id: Int) {

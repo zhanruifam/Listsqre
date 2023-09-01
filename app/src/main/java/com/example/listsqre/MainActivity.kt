@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.app.AlertDialog
-import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
 
 class MainActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
-    private lateinit var createTxt: EditText
+    private lateinit var dialogTxt: TextView
+    private lateinit var createTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var resetA: Button
     private lateinit var create: Button
@@ -57,8 +57,8 @@ class MainActivity : ComponentActivity() {
                 val listName = createTxt.text.toString()
                 if(listName.isNotEmpty()) {
                     createTextFile(this, listName)
-                    Listsqre.addNode(listName)
-                    feedIntoDb(this, Listsqre.getRecent().getId(), listName)
+                    Listsqre.addNode(listName, listName)
+                    feedIntoDb(this, Listsqre.getRecent().getId(), listName, listName)
                 } else {
                     // do nothing
                 }
@@ -87,6 +87,21 @@ class MainActivity : ComponentActivity() {
                 intent.putExtra("LISTNAME", obj.getListname())
                 startActivity(intent)
             }
+            card.setOnLongClickListener {
+                val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
+                dialogTxt = dialogView.findViewById(R.id.dialogTxt)
+                dialogTxt.text = obj.getDisplayname()
+                val builder = AlertDialog.Builder(this)
+                builder.setView(dialogView)
+                builder.setPositiveButton("Edit") { dialog, _ ->
+                    obj.setDisplayname(dialogTxt.text.toString())
+                    updateDb(this, false)
+                    refreshView()
+                    dialog.dismiss()
+                }
+                builder.create().show()
+                true
+            }
             delete = card.findViewById(R.id.del)
             delete.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
@@ -106,7 +121,7 @@ class MainActivity : ComponentActivity() {
                 builder.create().show()
             }
             cardText = card.findViewById(R.id.info_text)
-            cardText.text = obj.getListname()
+            cardText.text = obj.getDisplayname()
             cardLists = findViewById(R.id.cardContainer)
             cardLists.addView(card)
         }
