@@ -1,5 +1,6 @@
 package com.example.listsqre
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
@@ -14,6 +15,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
+    private lateinit var guideTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var resetA: Button
     private lateinit var create: Button
@@ -29,6 +31,7 @@ class MainActivity : ComponentActivity() {
 
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
+        guideTxt = findViewById(R.id.instructions)
 
         resetA.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -66,6 +69,10 @@ class MainActivity : ComponentActivity() {
                 dialog.dismiss()
             }
             builder.create().show()
+        }
+
+        guideTxt.setOnClickListener {
+            GlobalVar.appGuide(this)
         }
     }
 
