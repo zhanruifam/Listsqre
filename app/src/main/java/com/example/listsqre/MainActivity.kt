@@ -1,7 +1,8 @@
 package com.example.listsqre
 
-import android.annotation.SuppressLint
+import java.util.Locale
 import android.os.Bundle
+import android.widget.Toast
 import android.widget.Button
 import android.content.Intent
 import android.app.AlertDialog
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homepage)
 
-        // on start function calls
+        // ON BOOT-UP...
+        title = "LISTSQRE"
         readFromDb(this)
         refreshView()
 
@@ -58,12 +60,13 @@ class MainActivity : ComponentActivity() {
             builder.setView(dialogView)
             builder.setPositiveButton("Create") { dialog, _ ->
                 val listName = createTxt.text.toString()
-                if(listName.isNotEmpty()) {
+                if(listName.isNotEmpty() && !checkDuplicate(this, listName)) {
                     createTextFile(this, listName)
                     Listsqre.addNode(listName, listName)
                     feedIntoDb(this, Listsqre.getRecent().getId(), listName, listName)
                 } else {
-                    // do nothing
+                    // show error alert for empty/duplicate
+                    Toast.makeText(this, "Empty/Duplicate", Toast.LENGTH_SHORT).show()
                 }
                 refreshView()
                 dialog.dismiss()
@@ -92,6 +95,7 @@ class MainActivity : ComponentActivity() {
             card.setOnClickListener {
                 val intent = Intent(this, ListActivity::class.java)
                 intent.putExtra("LISTNAME", obj.getListname())
+                intent.putExtra("DISPNAME", obj.getDisplayname())
                 startActivity(intent)
             }
             card.setOnLongClickListener {
