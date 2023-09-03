@@ -9,17 +9,17 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="10dp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="540dp"
         android:contentDescription="@string/app_name">
 
         <LinearLayout
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
+            android:layout_height="540dp"
             android:orientation="vertical">
 
             <!-- created card views will be nested in cardContainer LinearLayout -->
@@ -30,7 +30,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,31 +40,33 @@
 
         <Button
             android:id="@+id/rst"
-            android:layout_width="150dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:background="#393939"
             android:text="@string/reset"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/add"
-            android:layout_width="150dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:background="#393939"
             android:text="@string/create"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="300dp"

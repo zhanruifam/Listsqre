@@ -8,7 +8,8 @@ object GlobalVar {
     const val DELIMITER: Char = '|'
     private const val APP_GUIDE_DESC: String = "Create multiple lists to track your notes, " +
             "Short click the card views to view its contents or visit the link, " +
-            "Long click the card views to edit its contents"
+            "Long click the card views to edit its contents, " +
+            "Avoid duplicate list names upon creation."
 
     fun appGuide(context: Context) {
         val builder = AlertDialog.Builder(context)

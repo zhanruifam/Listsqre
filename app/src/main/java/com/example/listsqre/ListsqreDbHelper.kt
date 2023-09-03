@@ -63,6 +63,23 @@ fun feedIntoDb(context: Context, Id: Int, listName: String, displayName: String)
     db.close()
 }
 
+fun checkDuplicate(context: Context, checkStr: String): Boolean {
+    val dbHelper = ListsqreDbHelper(context)
+    val db = dbHelper.readableDatabase
+    val cursor = db.query(TableTemplate.TABLE_NAME, null, null, null, null, null, null)
+    with(cursor) {
+        while (moveToNext()) {
+            val listname = getString(getColumnIndexOrThrow(TableTemplate.COLUMN_NAME_TITLE))
+            if(checkStr == listname) {
+                return true
+            }
+        }
+    }
+    cursor.close()
+    db.close()
+    return false
+}
+
 fun readFromDb(context: Context) {
     val dbHelper = ListsqreDbHelper(context)
     val db = dbHelper.readableDatabase

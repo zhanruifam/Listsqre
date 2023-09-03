@@ -1,17 +1,16 @@
 package com.example.listsqre
 
+import java.net.URL
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.content.Intent
 import android.app.AlertDialog
 import android.widget.TextView
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
-
-import java.net.URL
-import android.net.Uri
-import android.content.Intent
 
 class ListActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
@@ -20,6 +19,7 @@ class ListActivity : ComponentActivity() {
     private lateinit var guideTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var fileName: String
+    private lateinit var dispName: String
     private lateinit var resetA: Button
     private lateinit var create: Button
     private lateinit var delete: Button
@@ -28,8 +28,10 @@ class ListActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.listpage)
         fileName = intent.getStringExtra("LISTNAME").toString()
+        dispName = intent.getStringExtra("DISPNAME").toString()
 
-        // on start function calls
+        // ON BOOT-UP...
+        title = dispName
         ListOfListsqre.deleteAllNodes()
         readFromFile(this, fileName)
         refreshView()
