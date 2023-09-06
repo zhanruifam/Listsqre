@@ -15,7 +15,6 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="LISTSQRE"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
 
@@ -28,7 +27,6 @@
 
         <activity
             android:name=".ListActivity"
-            android:label="LISTSQRE"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
 
