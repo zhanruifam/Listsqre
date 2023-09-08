@@ -19,7 +19,7 @@
         <LinearLayout
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
-            android:layout_height="540dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <!-- created card views will be nested in cardContainer LinearLayout -->
