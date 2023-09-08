@@ -4,6 +4,6 @@
     <string name="create">create</string>
     <string name="description">Type Something:</string>
     <string name="cfm_description">Type \"confirm\" to reset/delete</string>
-    <string name="more_options">. . .</string>
+    <string name="more_options">\>\></string>
     <string name="app_guide">(App Guide)</string>
 </resources>

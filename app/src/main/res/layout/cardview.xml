@@ -21,7 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="casual" />
 
         <Space
             android:layout_width="15dp"
@@ -34,7 +36,8 @@
             android:background="#393939"
             android:text="@string/more_options"
             android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

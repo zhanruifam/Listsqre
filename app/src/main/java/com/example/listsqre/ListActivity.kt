@@ -46,9 +46,9 @@ class ListActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Confirmation [delete all?]")
+            builder.setTitle("Delete All?")
             builder.setView(rstdialogView)
-            builder.setPositiveButton("Done") { dialog, _ ->
+            builder.setPositiveButton("Delete") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
                     ListOfListsqre.deleteAllNodes()
@@ -66,9 +66,9 @@ class ListActivity : ComponentActivity() {
             val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
             createTxt = dialogView.findViewById(R.id.dialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Add onto list:")
+            builder.setTitle("Add Onto List:")
             builder.setView(dialogView)
-            builder.setPositiveButton("Done") { dialog, _ ->
+            builder.setPositiveButton("Create") { dialog, _ ->
                 val elemName = createTxt.text.toString()
                 if(elemName.isNotEmpty()) {
                     ListOfListsqre.addNode(elemName)
@@ -119,6 +119,7 @@ class ListActivity : ComponentActivity() {
                     dialogTxt = dialogView.findViewById(R.id.dialogTxt)
                     dialogTxt.text = obj.getElemname()
                     val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Description:")
                     builder.setView(dialogView)
                     builder.create().show()
                 }
@@ -130,14 +131,15 @@ class ListActivity : ComponentActivity() {
                 deleteTxt = dialogView.findViewById(R.id.deldialogTxt)
                 dialogTxt.text = obj.getElemname()
                 val builder = AlertDialog.Builder(this)
+                builder.setTitle("Edit/Delete:")
                 builder.setView(dialogView)
-                builder.setPositiveButton("Edit [ ... ]") { dialog, _ ->
+                builder.setPositiveButton("Edit") { dialog, _ ->
                     obj.setElemname(dialogTxt.text.toString())
                     updateTextFile(this, fileName)
                     refreshView()
                     dialog.dismiss()
                 }
-                builder.setNegativeButton("Delete [X]") { dialog, _ ->
+                builder.setNegativeButton("Delete") { dialog, _ ->
                     val deltxt = deleteTxt.text.toString()
                     if(deltxt == GlobalVar.cfmText) {
                         ListOfListsqre.deleteNode(obj.getId())
