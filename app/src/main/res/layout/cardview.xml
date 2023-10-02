@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    app:cardBackgroundColor="#009688"
+    app:cardBackgroundColor="#254252"
     app:contentPadding="8dp">
 
     <LinearLayout
@@ -20,10 +20,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#FFFFFF"
+            android:fontFamily="casual"
+            android:textColor="#eab56f"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:fontFamily="casual" />
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="15dp"
@@ -33,9 +33,9 @@
             android:id="@+id/options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#393939"
+            android:background="#eab56f"
             android:text="@string/more_options"
-            android:textColor="#FFFFFF"
+            android:textColor="#254252"
             android:textSize="18sp"
             android:textStyle="bold" />
 

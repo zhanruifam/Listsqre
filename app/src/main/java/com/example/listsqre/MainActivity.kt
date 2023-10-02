@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
                 deleteTxt = dialogView.findViewById(R.id.deldialogTxt)
                 dialogTxt.text = obj.getDisplayname()
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Edit/Delete:")
+                builder.setTitle("Settings:")
                 builder.setView(dialogView)
                 builder.setPositiveButton("Edit") { dialog, _ ->
                     obj.setDisplayname(dialogTxt.text.toString())
