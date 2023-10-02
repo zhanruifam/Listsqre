@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#009688"
+    android:background="#254252"
     android:gravity="center_horizontal|top"
     android:orientation="vertical">
 
@@ -42,10 +42,10 @@
             android:id="@+id/rst"
             android:layout_width="145dp"
             android:layout_height="wrap_content"
-            android:background="#393939"
+            android:background="#eab56f"
             android:text="@string/reset"
             android:textAllCaps="true"
-            android:textColor="#FFFFFF"
+            android:textColor="#254252"
             android:textSize="18sp" />
 
         <Space
@@ -56,10 +56,10 @@
             android:id="@+id/add"
             android:layout_width="145dp"
             android:layout_height="wrap_content"
-            android:background="#393939"
+            android:background="#eab56f"
             android:text="@string/create"
             android:textAllCaps="true"
-            android:textColor="#FFFFFF"
+            android:textColor="#254252"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -81,9 +81,8 @@
             android:clickable="true"
             android:focusable="true"
             android:text="@string/app_guide"
-            android:textColor="@color/black"
+            android:textColor="#eab56f"
             android:textSize="18sp"
-            android:textStyle="italic"
             tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
