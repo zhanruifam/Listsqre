@@ -28,7 +28,10 @@ class MainActivity : ComponentActivity() {
 
         // ON BOOT-UP...
         title = "Listsqre"
-        readFromDb(this)
+        if(!UserAuthActivity.enteredOnce) {
+            UserAuthActivity.enteredOnce = true
+            readFromDb(this)
+        }
         refreshView()
 
         resetA = findViewById(R.id.rst)
