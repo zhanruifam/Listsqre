@@ -27,30 +27,46 @@ class ListOfListsqre {
     companion object {
         private var idGen: Int = 0
         private var mutableList = mutableListOf<Node>()
+        private var selectedList = mutableListOf<Node>()
 
-        fun addNode(listname: String) {
-            mutableList.add(Node(idGen++, listname))
-        }
-
-        fun deleteNode(id: Int) {
+        private fun deleteNode(id: Int) {
             idGen--
             mutableList.removeAt(id)
             reassignTaskID()
         }
 
-        fun getRecent(): Node {
-            return mutableList.last()
+        fun addNode(listname: String) {
+            mutableList.add(Node(idGen++, listname))
+        }
+
+        fun pushToSelList(id: Int) {
+            selectedList.add(mutableList[id])
+        }
+
+        fun removeFromSelList(nodeToRemove: Node) {
+            if(selectedList.contains(nodeToRemove)) {
+                selectedList.remove(nodeToRemove)
+            } else {
+                // do nothing
+            }
         }
 
         fun getEntireList(): List<Node> {
             return mutableList.toList()
         }
 
-        fun deleteAllNodes() {
+        fun deleteAllNodes() { // obsolete
             idGen = 0
             while(getEntireList().isNotEmpty()) {
                 mutableList.removeAt(0)
             }
+        }
+
+        fun deleteSelNodes() {
+            for(node in selectedList) {
+                deleteNode(node.getId())
+            }
+            selectedList.clear()
         }
 
         private fun reassignTaskID() {

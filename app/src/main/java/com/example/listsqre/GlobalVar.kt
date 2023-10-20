@@ -8,11 +8,12 @@ object GlobalVar {
     const val DELIMITER: Char = '|'
     const val UAText: String = "348934"
     const val cfmText: String = "confirm"
-    private const val APP_GUIDE_DESC: String = "Create multiple lists to track your notes. " +
-            "Clickable card views to view its contents or visit the link. " +
-            "Button on each card view for more setting options (delete & edit). " +
-            "Please avoid duplicate list names upon list creation. " +
-            "TAKE NOTE: Be sure to kill the app in the background after exit. "
+    private const val APP_GUIDE_DESC: String = "Multi purpose tool for creating lists. " +
+            "Clickable card views to view its contents or visit https link. " +
+            "A button on each card view for more editing option. " +
+            "A checkbox on each card view for selection delete." +
+            "Please avoid duplicate list names upon list creation."
+
 
     fun appGuide(context: Context) {
         val builder = AlertDialog.Builder(context)

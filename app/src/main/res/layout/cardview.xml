@@ -15,18 +15,29 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <CheckBox
+            android:id="@+id/select_box"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
         <TextView
             android:id="@+id/info_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="end"
             android:fontFamily="casual"
+            android:maxLines="1"
             android:textColor="#eab56f"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <Space
-            android:layout_width="15dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent" />
 
         <Button
@@ -36,8 +47,7 @@
             android:background="#eab56f"
             android:text="@string/more_options"
             android:textColor="#254252"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

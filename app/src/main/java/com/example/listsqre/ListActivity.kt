@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.app.AlertDialog
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -16,10 +17,10 @@ class ListActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
-    private lateinit var deleteTxt: TextView
     private lateinit var resetTxt: TextView
     private lateinit var guideTxt: TextView
     private lateinit var cardText: TextView
+    private lateinit var checkBox: CheckBox
     private lateinit var fileName: String
     private lateinit var dispName: String
     private lateinit var options: Button
@@ -32,11 +33,12 @@ class ListActivity : ComponentActivity() {
         fileName = intent.getStringExtra("LISTNAME").toString()
         dispName = intent.getStringExtra("DISPNAME").toString()
 
-        // ON BOOT-UP...
+        /* --- ON BOOT-UP START --- */
         title = dispName
         ListOfListsqre.deleteAllNodes()
         readFromFile(this, fileName)
         refreshView()
+        /* --- ON BOOT-UP END --- */
 
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
@@ -46,13 +48,13 @@ class ListActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete All?")
+            builder.setTitle("Delete Selected?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Delete") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
-                    ListOfListsqre.deleteAllNodes()
-                    clearTextFile(this, fileName)
+                    ListOfListsqre.deleteSelNodes()
+                    updateTextFile(this, fileName)
                 } else {
                     // do nothing
                 }
@@ -124,29 +126,25 @@ class ListActivity : ComponentActivity() {
                     builder.create().show()
                 }
             }
+            checkBox = card.findViewById(R.id.select_box)
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if(isChecked) {
+                    ListOfListsqre.pushToSelList(obj.getId())
+                } else {
+                    ListOfListsqre.removeFromSelList(obj)
+                }
+            }
             options = card.findViewById(R.id.options)
             options.setOnClickListener {
-                val dialogView = layoutInflater.inflate(R.layout.optdialogview, FrameLayout(this))
+                val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
                 dialogTxt = dialogView.findViewById(R.id.dialogTxt)
-                deleteTxt = dialogView.findViewById(R.id.deldialogTxt)
                 dialogTxt.text = obj.getElemname()
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Settings:")
+                builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
                 builder.setPositiveButton("Edit") { dialog, _ ->
                     obj.setElemname(dialogTxt.text.toString())
                     updateTextFile(this, fileName)
-                    refreshView()
-                    dialog.dismiss()
-                }
-                builder.setNegativeButton("Delete") { dialog, _ ->
-                    val deltxt = deleteTxt.text.toString()
-                    if(deltxt == GlobalVar.cfmText) {
-                        ListOfListsqre.deleteNode(obj.getId())
-                        updateTextFile(this, fileName)
-                    } else {
-                        // do nothing
-                    }
                     refreshView()
                     dialog.dismiss()
                 }
