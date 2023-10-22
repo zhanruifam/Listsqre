@@ -9,7 +9,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-object TableTemplate : BaseColumns { // for listsqre table
+object TableTemplate : BaseColumns { // Schema for Listsqre
     const val TABLE_NAME = "listsqre"
     const val COLUMN_NAME_ID = "idnum"
     const val COLUMN_NAME_TITLE = "listname"

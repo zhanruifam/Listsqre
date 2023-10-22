@@ -17,8 +17,9 @@
 
         <CheckBox
             android:id="@+id/select_box"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/custom_checkbox_selector" />
 
         <Space
             android:layout_width="10dp"
