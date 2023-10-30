@@ -5,14 +5,18 @@
     android:viewportWidth="30.0"
     android:viewportHeight="30.0">
 
-    <!-- Hollow Box -->
+    <!--
+    // Hollow Box
     <path
         android:strokeWidth="2"
         android:strokeColor="#eab56f" android:pathData="M2,2h26v26h-26v-26Z" />
 
-    <!-- Tick -->
+    // Tick
     <path
         android:strokeWidth="2"
-        android:strokeColor="#eab56f" android:pathData="M8,15l5,5l9,-9" />
+        android:strokeColor="#eab56f" android:pathData="M8,15l5,5l9,-9" /> -->
+
+    <path
+        android:fillColor="#eab56f" android:pathData="M1,1h28v28h-28z" />
 
 </vector>
