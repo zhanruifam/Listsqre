@@ -8,13 +8,10 @@
     android:gravity="center_horizontal|top"
     android:orientation="vertical">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="540dp"
+        android:layout_height="0dp"
+        android:layout_weight="80"
         android:contentDescription="@string/app_name">
 
         <LinearLayout
@@ -29,20 +26,19 @@
 
     </ScrollView>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:gravity="center"
+        android:padding="12dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/clr"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#eab56f"
             android:text="@string/clear"
             android:textAllCaps="true"
@@ -51,14 +47,12 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:gravity="center|end"
+        android:padding="12dp"
         android:orientation="horizontal">
 
         <TextView
