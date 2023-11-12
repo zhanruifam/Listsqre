@@ -40,7 +40,7 @@
 
         <Button
             android:id="@+id/rst"
-            android:layout_width="145dp"
+            android:layout_width="94dp"
             android:layout_height="wrap_content"
             android:background="#eab56f"
             android:text="@string/reset"
@@ -49,12 +49,26 @@
             android:textSize="18sp" />
 
         <Space
-            android:layout_width="10dp"
+            android:layout_width="9dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/plan"
+            android:layout_width="94dp"
+            android:layout_height="wrap_content"
+            android:background="#eab56f"
+            android:text="@string/plan"
+            android:textAllCaps="true"
+            android:textColor="#254252"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="9dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/add"
-            android:layout_width="145dp"
+            android:layout_width="94dp"
             android:layout_height="wrap_content"
             android:background="#eab56f"
             android:text="@string/create"

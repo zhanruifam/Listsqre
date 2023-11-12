@@ -25,6 +25,7 @@ class ListActivity : ComponentActivity() {
     private lateinit var dispName: String
     private lateinit var options: Button
     private lateinit var resetA: Button
+    private lateinit var mtplan: Button
     private lateinit var create: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +42,7 @@ class ListActivity : ComponentActivity() {
         /* --- ON BOOT-UP END --- */
 
         resetA = findViewById(R.id.rst)
+        mtplan = findViewById(R.id.plan)
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
 
@@ -58,6 +60,19 @@ class ListActivity : ComponentActivity() {
                 } else {
                     // do nothing
                 }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
+
+        mtplan.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirmation:")
+            builder.setMessage("Move selected to planned list?")
+            builder.setPositiveButton("Yes") { dialog, _ ->
+                // TODO: move selected list contents to planned list
+                // TODO: still keep the contents in the original list
                 refreshView()
                 dialog.dismiss()
             }

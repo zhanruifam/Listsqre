@@ -19,8 +19,10 @@ class MainActivity : ComponentActivity() {
     private lateinit var guideTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var checkBox: CheckBox
+    private lateinit var plannedL: CardView
     private lateinit var options: Button
     private lateinit var resetA: Button
+    private lateinit var mtplan: Button
     private lateinit var create: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.homepage)
 
         /* --- ON BOOT-UP START --- */
-        title = "Listsqre"
+        title = "LISTSQRE"
         if(!UserAuthActivity.enteredOnce) {
             UserAuthActivity.enteredOnce = true
             readFromDb(this)
@@ -36,9 +38,16 @@ class MainActivity : ComponentActivity() {
         refreshView()
         /* --- ON BOOT-UP END --- */
 
+        plannedL = findViewById(R.id.pList)
         resetA = findViewById(R.id.rst)
+        mtplan = findViewById(R.id.plan)
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
+
+        plannedL.setOnClickListener {
+            val intent = Intent(this, PlanActivity::class.java)
+            startActivity(intent)
+        }
 
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
@@ -55,6 +64,19 @@ class MainActivity : ComponentActivity() {
                 } else {
                     // do nothing
                 }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
+
+        mtplan.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirmation:")
+            builder.setMessage("Move selected to planned list?")
+            builder.setPositiveButton("Yes") { dialog, _ ->
+                // TODO: move all list contents into planned list
+                // TODO: still keep the original list
                 refreshView()
                 dialog.dismiss()
             }

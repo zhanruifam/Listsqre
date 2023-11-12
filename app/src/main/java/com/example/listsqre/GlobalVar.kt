@@ -15,8 +15,9 @@ object GlobalVar {
     const val cfmText: String = "confirm"
     private const val APP_GUIDE_DESC: String = "Multi purpose tool for creating lists. " +
             "Clickable card views to view its contents or visit https link. " +
-            "A button on each card view for more editing option. " +
-            "A checkbox on each card view for selection delete. " +
+            "A planned list card view for prioritizing or planning tasks. " +
+            "An options button on each card view for more editing option. " +
+            "A checkbox on each card view for more selection options. " +
             "Please avoid duplicate list names upon list creation."
 
     fun appStateIdle() {
