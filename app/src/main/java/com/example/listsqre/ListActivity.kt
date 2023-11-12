@@ -110,6 +110,8 @@ class ListActivity : ComponentActivity() {
     }
 
     private fun refreshView() {
+        Listsqre.clearSelList()
+        ListOfListsqre.clearSelList()
         removeAllCardViews()
         showCardViews()
     }
