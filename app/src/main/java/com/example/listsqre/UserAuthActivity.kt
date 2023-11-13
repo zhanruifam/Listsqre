@@ -16,7 +16,7 @@ class UserAuthActivity : ComponentActivity() {
     private lateinit var passwordBtn: Button
 
     companion object {
-        var enteredOnce: Boolean = false
+        var UAEnteredOnce: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

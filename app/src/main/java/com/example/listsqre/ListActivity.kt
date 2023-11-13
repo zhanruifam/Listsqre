@@ -67,16 +67,13 @@ class ListActivity : ComponentActivity() {
         }
 
         mtplan.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Confirmation:")
-            builder.setMessage("Move selected to planned list?")
-            builder.setPositiveButton("Yes") { dialog, _ ->
-                // TODO: move selected list contents to planned list
-                // TODO: still keep the contents in the original list
-                refreshView()
-                dialog.dismiss()
+            for(obj in ListOfListsqre.getEntireSelList()) {
+                val desc = obj.getElemname()
+                val disp = dispName
+                feedIntoDbPlanned(this, ListsqrePlanned.getIdGen(), desc, disp)
+                ListsqrePlanned.addNode(desc, disp)
             }
-            builder.create().show()
+            refreshView()
         }
 
         create.setOnClickListener {

@@ -30,9 +30,9 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.homepage)
 
         /* --- ON BOOT-UP START --- */
-        title = "LISTSQRE"
-        if(!UserAuthActivity.enteredOnce) {
-            UserAuthActivity.enteredOnce = true
+        title = "Listsqre"
+        if(!UserAuthActivity.UAEnteredOnce) {
+            UserAuthActivity.UAEnteredOnce = true
             readFromDb(this)
         }
         refreshView()
@@ -71,16 +71,8 @@ class MainActivity : ComponentActivity() {
         }
 
         mtplan.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Confirmation:")
-            builder.setMessage("Move selected to planned list?")
-            builder.setPositiveButton("Yes") { dialog, _ ->
-                // TODO: move all list contents into planned list
-                // TODO: still keep the original list
-                refreshView()
-                dialog.dismiss()
-            }
-            builder.create().show()
+            // TODO: add all list contains into planned list
+            refreshView()
         }
 
         create.setOnClickListener {
