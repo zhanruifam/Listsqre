@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Delete Selected?")
             builder.setView(rstdialogView)
-            builder.setPositiveButton("Delete") { dialog, _ ->
+            builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
         }
 
         mtplan.setOnClickListener {
-            // TODO: add all list contains into planned list
+            // TODO: think of what other features...
             refreshView()
         }
 
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Create List:")
             builder.setView(dialogView)
-            builder.setPositiveButton("Create") { dialog, _ ->
+            builder.setPositiveButton("Proceed") { dialog, _ ->
                 val listName = createTxt.text.toString()
                 if(listName.isNotEmpty() && !checkDuplicate(this, listName)) {
                     createTextFile(this, listName)
@@ -138,7 +138,7 @@ class MainActivity : ComponentActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
-                builder.setPositiveButton("Edit") { dialog, _ ->
+                builder.setPositiveButton("Proceed") { dialog, _ ->
                     obj.setDisplayname(dialogTxt.text.toString())
                     updateDb(this)
                     refreshView()

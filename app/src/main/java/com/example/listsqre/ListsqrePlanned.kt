@@ -11,7 +11,7 @@ class ListsqrePlanned {
         }
 
         fun getDisp(): String {
-            return "from \"$disp\" list"
+            return "-> from \"$disp\" list"
         }
     }
 
@@ -24,7 +24,11 @@ class ListsqrePlanned {
         }
 
         fun addNode(desc: String, disp: String) {
-            plannedList.add(Node(idGen++, desc, disp))
+            if(!checkDuplicate(desc)) {
+                plannedList.add(Node(idGen++, desc, disp))
+            } else {
+                // do nothing
+            }
         }
 
         fun getEntireList(): List<Node> {
@@ -34,6 +38,16 @@ class ListsqrePlanned {
         fun clearPlannedList() {
             plannedList.clear()
             idGen = 0
+        }
+
+        private fun checkDuplicate(checkDesc: String): Boolean {
+            // this function only checks for duplicate desc, needs a better method
+            for(obj in plannedList) {
+                if(checkDesc == obj.getDesc()) {
+                    return true
+                }
+            }
+            return false
         }
     }
 }

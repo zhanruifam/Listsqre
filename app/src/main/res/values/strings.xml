@@ -10,7 +10,7 @@
     <string name="app_guide">[User Guide]</string>
     <string name="ua_description">Passcode:</string>
     <string name="ua_btn_description">Enter</string>
-    <string name="planned_list">Planned List</string>
+    <string name="planned_list">[ Planned List ]</string>
     <string name="description">Type Something:</string>
     <string name="cfm_description">Type \"confirm\" to delete</string>
 

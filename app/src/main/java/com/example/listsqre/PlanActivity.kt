@@ -12,6 +12,7 @@ import androidx.activity.ComponentActivity
 class PlanActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
+    private lateinit var resetTxt: TextView
     private lateinit var cardDesc: TextView
     private lateinit var cardDisp: TextView
     private lateinit var guideTxt: TextView
@@ -38,9 +39,23 @@ class PlanActivity : ComponentActivity() {
         guideTxt = findViewById(R.id.instructions)
 
         clrPage.setOnClickListener {
-            ListsqrePlanned.clearPlannedList()
-            updateDbPlanned(this)
-            refreshView()
+            val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
+            resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Clear Planned List?")
+            builder.setView(rstdialogView)
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                val rstTxt = resetTxt.text.toString()
+                if(rstTxt == GlobalVar.cfmText) {
+                    ListsqrePlanned.clearPlannedList()
+                    updateDbPlanned(this)
+                } else {
+                    // do nothing
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
         }
 
         guideTxt.setOnClickListener {
