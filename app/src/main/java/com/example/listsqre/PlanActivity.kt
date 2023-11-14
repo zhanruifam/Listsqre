@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.app.AlertDialog
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -16,6 +17,7 @@ class PlanActivity : ComponentActivity() {
     private lateinit var cardDesc: TextView
     private lateinit var cardDisp: TextView
     private lateinit var guideTxt: TextView
+    private lateinit var checkBox: CheckBox
     private lateinit var clrPage: Button
 
     companion object {
@@ -42,12 +44,12 @@ class PlanActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Clear Planned List?")
+            builder.setTitle("Remove Selected?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
-                    ListsqrePlanned.clearPlannedList()
+                    ListsqrePlanned.deleteSelNodes()
                     updateDbPlanned(this)
                 } else {
                     // do nothing
@@ -71,6 +73,7 @@ class PlanActivity : ComponentActivity() {
     private fun refreshView() {
         Listsqre.clearSelList()
         ListOfListsqre.clearSelList()
+        ListsqrePlanned.clearSelList()
         removeAllCardViews()
         showCardViews()
     }
@@ -86,6 +89,14 @@ class PlanActivity : ComponentActivity() {
                 builder.setTitle("Description:")
                 builder.setView(dialogView)
                 builder.create().show()
+            }
+            checkBox = card.findViewById(R.id.select_box)
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if(isChecked) {
+                    ListsqrePlanned.pushToSelList(obj.getId())
+                } else {
+                    ListsqrePlanned.removeFromSelList(obj)
+                }
             }
             cardDesc = card.findViewById(R.id.desc)
             cardDisp = card.findViewById(R.id.disp)
