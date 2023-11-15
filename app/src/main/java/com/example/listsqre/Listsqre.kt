@@ -72,7 +72,7 @@ class Listsqre {
             selectedList.clear()
         }
 
-        fun clearSelList() {
+        fun clrSelList() {
             selectedList.clear()
         }
 

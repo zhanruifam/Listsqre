@@ -15,7 +15,7 @@ class ListsqrePlanned {
         }
 
         fun getDisp(): String {
-            return "from \"$disp\" list"
+            return disp
         }
     }
 
@@ -24,8 +24,8 @@ class ListsqrePlanned {
         private var plannedList = mutableListOf<Node>()
         private var selectedList = mutableListOf<Node>()
 
-        fun getIdGen(): Int {
-            return idGen
+        fun getRecent(): Node {
+            return plannedList.last()
         }
 
         fun addNode(desc: String, disp: String) {
@@ -50,6 +50,13 @@ class ListsqrePlanned {
             }
         }
 
+        fun deleteAllNodes() { // obsolete
+            idGen = 0
+            while(getEntireList().isNotEmpty()) {
+                plannedList.removeAt(0)
+            }
+        }
+
         fun deleteSelNodes() {
             for(node in selectedList) {
                 deleteNode(node.getId())
@@ -57,12 +64,12 @@ class ListsqrePlanned {
             selectedList.clear()
         }
 
-        fun clearSelList() {
-            selectedList.clear()
-        }
-
         fun getEntireList(): List<Node> {
             return plannedList.toList()
+        }
+
+        fun clrSelList() {
+            selectedList.clear()
         }
 
         private fun reassignTaskID() {

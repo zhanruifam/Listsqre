@@ -20,20 +20,12 @@ class PlanActivity : ComponentActivity() {
     private lateinit var checkBox: CheckBox
     private lateinit var clrPage: Button
 
-    companion object {
-        var PAEnteredOnce: Boolean = false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.planpage)
 
         /* --- ON BOOT-UP START --- */
         title = "Planned List"
-        if(!PAEnteredOnce) {
-            PAEnteredOnce = true
-            readFromDbPlanned(this)
-        }
         refreshView()
         /* --- ON BOOT-UP END --- */
 
@@ -71,9 +63,9 @@ class PlanActivity : ComponentActivity() {
     }
 
     private fun refreshView() {
-        Listsqre.clearSelList()
-        ListOfListsqre.clearSelList()
-        ListsqrePlanned.clearSelList()
+        Listsqre.clrSelList()
+        ListOfListsqre.clrSelList()
+        ListsqrePlanned.clrSelList()
         removeAllCardViews()
         showCardViews()
     }

@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/border_bg">
 
             <TextView
                 android:id="@+id/p_info_text"
@@ -34,9 +35,7 @@
                 android:layout_weight="1"
                 android:text="@string/planned_list"
                 android:textAlignment="center"
-                android:fontFamily="casual"
                 android:textColor="#eab56f"
-                android:textStyle="bold"
                 android:textSize="24sp" />
 
         </LinearLayout>

@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
         if(!UserAuthActivity.UAEnteredOnce) {
             UserAuthActivity.UAEnteredOnce = true
             readFromDb(this)
+            readFromDbPlanned(this)
         }
         refreshView()
         /* --- ON BOOT-UP END --- */
@@ -107,9 +108,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun refreshView() {
-        Listsqre.clearSelList()
-        ListOfListsqre.clearSelList()
-        ListsqrePlanned.clearSelList()
+        Listsqre.clrSelList()
+        ListOfListsqre.clrSelList()
+        ListsqrePlanned.clrSelList()
         removeAllCardViews()
         showCardViews()
     }

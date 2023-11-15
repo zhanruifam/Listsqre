@@ -147,15 +147,17 @@ fun updateDb(context: Context) {
 
 // ----- global CRUD methods for handling planned list database ----- //
 
-fun feedIntoDbPlanned(context: Context, Id: Int, desc: String, disp: String) {
+fun feedIntoDbPlanned(context: Context) {
     val dbHelper = PlannedDbHelper(context)
     val db = dbHelper.writableDatabase
-    val values = ContentValues().apply {
-        put(TableTemplate2.COLUMN_NAME_ID, Id)
-        put(TableTemplate2.COLUMN_NAME_TITLE, desc)
-        put(TableTemplate2.COLUMN_NAME_TITLE_02, disp)
+    for(obj in ListsqrePlanned.getEntireList()) {
+        val values = ContentValues().apply {
+            put(TableTemplate2.COLUMN_NAME_ID, obj.getId())
+            put(TableTemplate2.COLUMN_NAME_TITLE, obj.getDesc())
+            put(TableTemplate2.COLUMN_NAME_TITLE_02, obj.getDisp())
+        }
+        db?.insert(TableTemplate2.TABLE_NAME, null, values)
     }
-    db?.insert(TableTemplate2.TABLE_NAME, null, values)
     db.close()
 }
 
@@ -178,8 +180,6 @@ fun updateDbPlanned(context: Context) {
     val dbHelper = PlannedDbHelper(context)
     val db = dbHelper.writableDatabase
     db.delete(TableTemplate2.TABLE_NAME, null, null)
-    for(obj in ListsqrePlanned.getEntireList()) {
-        feedIntoDbPlanned(context, obj.getId(), obj.getDesc(), obj.getDisp())
-    }
+    feedIntoDbPlanned(context)
     db.close()
 }

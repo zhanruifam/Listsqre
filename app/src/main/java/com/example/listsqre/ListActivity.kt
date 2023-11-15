@@ -70,11 +70,15 @@ class ListActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Plan Selected?")
             builder.setPositiveButton("Proceed") { dialog, _ ->
-                for(obj in ListOfListsqre.getEntireSelList()) {
-                    val desc = obj.getElemname()
-                    val disp = dispName
-                    feedIntoDbPlanned(this, ListsqrePlanned.getIdGen(), desc, disp)
-                    ListsqrePlanned.addNode(desc, disp)
+                if(ListOfListsqre.getEntireSelList().isNotEmpty()) {
+                    for(obj in ListOfListsqre.getEntireSelList()) {
+                        val desc = obj.getElemname()
+                        val disp = dispName
+                        ListsqrePlanned.addNode(desc, disp)
+                    }
+                    updateDbPlanned(this)
+                } else {
+                    // do nothing
                 }
                 refreshView()
                 dialog.dismiss()
@@ -113,9 +117,9 @@ class ListActivity : ComponentActivity() {
     }
 
     private fun refreshView() {
-        Listsqre.clearSelList()
-        ListOfListsqre.clearSelList()
-        ListsqrePlanned.clearSelList()
+        Listsqre.clrSelList()
+        ListOfListsqre.clrSelList()
+        ListsqrePlanned.clrSelList()
         removeAllCardViews()
         showCardViews()
     }
