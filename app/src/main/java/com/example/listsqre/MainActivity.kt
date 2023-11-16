@@ -14,6 +14,7 @@ import androidx.activity.ComponentActivity
 class MainActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
+    private lateinit var planLText: TextView
     private lateinit var createTxt: TextView
     private lateinit var resetTxt: TextView
     private lateinit var guideTxt: TextView
@@ -29,7 +30,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homepage)
 
-        /* --- ON BOOT-UP START --- */
+        plannedL = findViewById(R.id.pList)
+        resetA = findViewById(R.id.rst)
+        mtplan = findViewById(R.id.plan)
+        create = findViewById(R.id.add)
+        guideTxt = findViewById(R.id.instructions)
+
+        /** --- ON BOOT-UP START --- **/
         title = "Listsqre"
         if(!UserAuthActivity.UAEnteredOnce) {
             UserAuthActivity.UAEnteredOnce = true
@@ -37,13 +44,7 @@ class MainActivity : ComponentActivity() {
             readFromDbPlanned(this)
         }
         refreshView()
-        /* --- ON BOOT-UP END --- */
-
-        plannedL = findViewById(R.id.pList)
-        resetA = findViewById(R.id.rst)
-        mtplan = findViewById(R.id.plan)
-        create = findViewById(R.id.add)
-        guideTxt = findViewById(R.id.instructions)
+        /** --- ON BOOT-UP END --- **/
 
         plannedL.setOnClickListener {
             val intent = Intent(this, PlanActivity::class.java)
@@ -72,8 +73,23 @@ class MainActivity : ComponentActivity() {
         }
 
         mtplan.setOnClickListener {
-            // TODO: think of what other features...
-            refreshView()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Plan Selected?")
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                if(Listsqre.getEntireSelList().isNotEmpty()) {
+                    for(obj in Listsqre.getEntireSelList()) {
+                        val desc = obj.getDisplayname()
+                        val disp = obj.getDisplayname()
+                        ListsqrePlanned.addNode(desc, disp)
+                    }
+                    updateDbPlanned(this)
+                } else {
+                    // do nothing
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
         }
 
         create.setOnClickListener {
@@ -102,9 +118,19 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        updatePlanLText()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         removeAllCardViews()
+    }
+
+    private fun updatePlanLText() {
+        planLText = plannedL.findViewById(R.id.p_info_text)
+        planLText.text = ListsqrePlanned.planLTextCaption()
     }
 
     private fun refreshView() {
@@ -113,6 +139,7 @@ class MainActivity : ComponentActivity() {
         ListsqrePlanned.clrSelList()
         removeAllCardViews()
         showCardViews()
+        updatePlanLText()
     }
 
     private fun showCardViews() {

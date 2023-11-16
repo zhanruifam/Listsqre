@@ -72,6 +72,10 @@ class ListsqrePlanned {
             selectedList.clear()
         }
 
+        fun planLTextCaption(): String {
+            return plannedList.size.toString() + " Planned Item(s)"
+        }
+
         private fun reassignTaskID() {
             for((iterator, obj) in getEntireList().withIndex()) {
                 obj.setId(iterator)

@@ -24,13 +24,13 @@ class PlanActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.planpage)
 
-        /* --- ON BOOT-UP START --- */
-        title = "Planned List"
-        refreshView()
-        /* --- ON BOOT-UP END --- */
-
         clrPage = findViewById(R.id.clr)
         guideTxt = findViewById(R.id.instructions)
+
+        /** --- ON BOOT-UP START --- **/
+        title = "Planned List"
+        refreshView()
+        /** --- ON BOOT-UP END --- **/
 
         clrPage.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))

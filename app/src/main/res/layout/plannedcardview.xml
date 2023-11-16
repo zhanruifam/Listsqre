@@ -28,36 +28,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/desc"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
                 android:textColor="#eab56f"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#eab56f" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-
             <TextView
                 android:id="@+id/disp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#40EAB56F"
                 android:fontFamily="casual"
                 android:textColor="#eab56f"
                 android:textSize="24sp"

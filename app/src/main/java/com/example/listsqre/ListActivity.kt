@@ -34,17 +34,17 @@ class ListActivity : ComponentActivity() {
         fileName = intent.getStringExtra("LISTNAME").toString()
         dispName = intent.getStringExtra("DISPNAME").toString()
 
-        /* --- ON BOOT-UP START --- */
-        title = dispName
-        ListOfListsqre.deleteAllNodes()
-        readFromFile(this, fileName)
-        refreshView()
-        /* --- ON BOOT-UP END --- */
-
         resetA = findViewById(R.id.rst)
         mtplan = findViewById(R.id.plan)
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
+
+        /** --- ON BOOT-UP START --- **/
+        title = dispName
+        ListOfListsqre.deleteAllNodes()
+        readFromFile(this, fileName)
+        refreshView()
+        /** --- ON BOOT-UP END --- **/
 
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
