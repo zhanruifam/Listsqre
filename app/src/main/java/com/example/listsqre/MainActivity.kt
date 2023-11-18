@@ -75,12 +75,11 @@ class MainActivity : ComponentActivity() {
         mtplan.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Plan Selected?")
+            builder.setMessage("Add all items from selected list(s)?")
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 if(Listsqre.getEntireSelList().isNotEmpty()) {
                     for(obj in Listsqre.getEntireSelList()) {
-                        val desc = obj.getDisplayname()
-                        val disp = obj.getDisplayname()
-                        ListsqrePlanned.addNode(desc, disp)
+                        addAllToPlanned(this, obj.getListname(), obj.getDisplayname())
                     }
                     updateDbPlanned(this)
                 } else {

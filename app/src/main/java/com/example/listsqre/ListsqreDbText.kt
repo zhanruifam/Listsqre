@@ -72,6 +72,27 @@ fun readFromFile(context: Context, fileName: String?) {
     }
 }
 
+fun addAllToPlanned(context: Context, fileName: String?, dispName: String) {
+    val file = fileName?.let { File(context.filesDir, it) }
+    try {
+        val reader = BufferedReader(FileReader(file))
+        var currentChar: Int
+        var currentPart = StringBuilder()
+        while (reader.read().also { currentChar = it } != GlobalVar.EOF) {
+            val char = currentChar.toChar()
+            if (char == GlobalVar.DELIMITER) {
+                ListsqrePlanned.addNode(currentPart.toString(), dispName)
+                currentPart = StringBuilder()
+            } else {
+                currentPart.append(char)
+            }
+        }
+        reader.close()
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+}
+
 fun updateTextFile(context: Context, fileName: String?) {
     val file = fileName?.let { File(context.filesDir, it) }
     try {

@@ -2,8 +2,9 @@
 
     <string name="plan">plan</string>
     <string name="back">[Back]</string>
-    <string name="clear">remove</string>
+    <string name="clear">clear</string>
     <string name="reset">delete</string>
+    <string name="remove">remove</string>
     <string name="create">create</string>
     <string name="more_options">Edit</string>
     <string name="app_name">Listsqre</string>

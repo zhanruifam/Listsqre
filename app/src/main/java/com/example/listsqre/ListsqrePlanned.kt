@@ -50,13 +50,6 @@ class ListsqrePlanned {
             }
         }
 
-        fun deleteAllNodes() { // obsolete
-            idGen = 0
-            while(getEntireList().isNotEmpty()) {
-                plannedList.removeAt(0)
-            }
-        }
-
         fun deleteSelNodes() {
             for(node in selectedList) {
                 deleteNode(node.getId())
@@ -66,6 +59,10 @@ class ListsqrePlanned {
 
         fun getEntireList(): List<Node> {
             return plannedList.toList()
+        }
+
+        fun clrPlannedList() {
+            plannedList.clear()
         }
 
         fun clrSelList() {

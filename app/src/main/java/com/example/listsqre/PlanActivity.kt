@@ -19,12 +19,14 @@ class PlanActivity : ComponentActivity() {
     private lateinit var guideTxt: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var clrPage: Button
+    private lateinit var remSel: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.planpage)
 
-        clrPage = findViewById(R.id.clr)
+        clrPage = findViewById(R.id.clear)
+        remSel = findViewById(R.id.remove)
         guideTxt = findViewById(R.id.instructions)
 
         /** --- ON BOOT-UP START --- **/
@@ -33,6 +35,26 @@ class PlanActivity : ComponentActivity() {
         /** --- ON BOOT-UP END --- **/
 
         clrPage.setOnClickListener {
+            val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
+            resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Clear All Planned Items?")
+            builder.setView(rstdialogView)
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                val rstTxt = resetTxt.text.toString()
+                if(rstTxt == GlobalVar.cfmText) {
+                    ListsqrePlanned.clrPlannedList()
+                    updateDbPlanned(this)
+                } else {
+                    // do nothing
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
+
+        remSel.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)

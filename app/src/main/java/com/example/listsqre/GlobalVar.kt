@@ -4,11 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 
 object GlobalVar {
-    enum class AppState {
-        Idle, ProcessingRequest
-    }
-
-    var sta = AppState.Idle     // <-- initialized value at Idle
     const val EOF: Int = -1
     const val DELIMITER: Char = '|'
     const val UAText: String = "348934"
@@ -20,18 +15,15 @@ object GlobalVar {
             "A checkbox on each card view for more selection options. " +
             "Please avoid duplicate list names upon list creation."
 
-    fun appStateIdle() {
-        var sta = AppState.Idle
-    }
-
-    fun appStateProcess() {
-        var sta = AppState.ProcessingRequest
-    }
-
     fun appGuide(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("User Guide:")
         builder.setMessage(APP_GUIDE_DESC)
         builder.create().show()
+    }
+
+    fun nullStrHandler(input: String?): String {
+        // Using the safe call operator and the null-coalescing operator
+        return input?: "NULL string :("
     }
 }
