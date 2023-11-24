@@ -39,18 +39,11 @@ class ListActivity : ComponentActivity() {
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
 
-        /** --- ON BOOT-UP START --- **/
-        title = dispName
-        ListOfListsqre.deleteAllNodes()
-        readFromFile(this, fileName)
-        refreshView()
-        /** --- ON BOOT-UP END --- **/
-
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete Selected?")
+            builder.setTitle("Delete Selected Item(s)?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
@@ -69,14 +62,14 @@ class ListActivity : ComponentActivity() {
         mtplan.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Plan Selected?")
-            builder.setMessage("Add selected items from current list?")
+            builder.setMessage("Move selected item(s) from current list?")
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 if(ListOfListsqre.getEntireSelList().isNotEmpty()) {
                     for(obj in ListOfListsqre.getEntireSelList()) {
-                        val desc = obj.getElemname()
-                        val disp = dispName
-                        ListsqrePlanned.addNode(desc, disp)
+                        ListsqrePlanned.addNode(obj.getElemname(), dispName)
                     }
+                    ListOfListsqre.deleteSelNodes()
+                    updateTextFile(this, fileName)
                     updateDbPlanned(this)
                 } else {
                     // do nothing
@@ -110,6 +103,14 @@ class ListActivity : ComponentActivity() {
         guideTxt.setOnClickListener {
             GlobalVar.appGuide(this)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        title = dispName
+        ListOfListsqre.deleteAllNodes()
+        readFromFile(this, fileName)
+        refreshView()
     }
 
     override fun onDestroy() {

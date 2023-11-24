@@ -110,7 +110,6 @@ fun updateTextFile(context: Context, fileName: String?) {
     }
 }
 
-/* --- obsolete ---
 fun clearTextFile(context: Context, fileName: String?) {
     val file = fileName?.let { File(context.filesDir, it) }
     try {
@@ -124,4 +123,3 @@ fun clearTextFile(context: Context, fileName: String?) {
         e.printStackTrace()
     }
 }
-*/

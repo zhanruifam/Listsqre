@@ -36,16 +36,6 @@ class MainActivity : ComponentActivity() {
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
 
-        /** --- ON BOOT-UP START --- **/
-        title = "Listsqre"
-        if(!UserAuthActivity.UAEnteredOnce) {
-            UserAuthActivity.UAEnteredOnce = true
-            readFromDb(this)
-            readFromDbPlanned(this)
-        }
-        refreshView()
-        /** --- ON BOOT-UP END --- **/
-
         plannedL.setOnClickListener {
             val intent = Intent(this, PlanActivity::class.java)
             startActivity(intent)
@@ -55,7 +45,7 @@ class MainActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete Selected?")
+            builder.setTitle("Delete Selected List(s)?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
@@ -75,11 +65,12 @@ class MainActivity : ComponentActivity() {
         mtplan.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Plan Selected?")
-            builder.setMessage("Add all items from selected list(s)?")
+            builder.setMessage("Move all item(s) from selected list(s)?")
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 if(Listsqre.getEntireSelList().isNotEmpty()) {
                     for(obj in Listsqre.getEntireSelList()) {
                         addAllToPlanned(this, obj.getListname(), obj.getDisplayname())
+                        clearTextFile(this, obj.getListname())
                     }
                     updateDbPlanned(this)
                 } else {
@@ -119,7 +110,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        updatePlanLText()
+        title = "Listsqre"
+        if(!UserAuthActivity.UAEnteredOnce) {
+            UserAuthActivity.UAEnteredOnce = true
+            readFromDb(this)
+            readFromDbPlanned(this)
+        }
+        refreshView()
     }
 
     override fun onDestroy() {
@@ -160,6 +157,7 @@ class MainActivity : ComponentActivity() {
             }
             options = card.findViewById(R.id.options)
             options.setOnClickListener {
+                val originDisp = obj.getDisplayname()
                 val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
                 dialogTxt = dialogView.findViewById(R.id.dialogTxt)
                 dialogTxt.text = obj.getDisplayname()
@@ -168,7 +166,9 @@ class MainActivity : ComponentActivity() {
                 builder.setView(dialogView)
                 builder.setPositiveButton("Proceed") { dialog, _ ->
                     obj.setDisplayname(dialogTxt.text.toString())
+                    ListsqrePlanned.setChangedDisp(originDisp, dialogTxt.text.toString())
                     updateDb(this)
+                    updateDbPlanned(this)
                     refreshView()
                     dialog.dismiss()
                 }

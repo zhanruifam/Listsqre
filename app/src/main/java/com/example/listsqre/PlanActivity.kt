@@ -19,26 +19,23 @@ class PlanActivity : ComponentActivity() {
     private lateinit var guideTxt: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var clrPage: Button
-    private lateinit var remSel: Button
+    private lateinit var doneSel: Button
+    private lateinit var unPlanB: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.planpage)
 
         clrPage = findViewById(R.id.clear)
-        remSel = findViewById(R.id.remove)
+        doneSel = findViewById(R.id.remove)
+        unPlanB = findViewById(R.id.unplan)
         guideTxt = findViewById(R.id.instructions)
-
-        /** --- ON BOOT-UP START --- **/
-        title = "Planned List"
-        refreshView()
-        /** --- ON BOOT-UP END --- **/
 
         clrPage.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Clear All Planned Items?")
+            builder.setTitle("Done All Items?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
@@ -54,11 +51,11 @@ class PlanActivity : ComponentActivity() {
             builder.create().show()
         }
 
-        remSel.setOnClickListener {
+        doneSel.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Remove Selected?")
+            builder.setTitle("Done Selected Items?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
@@ -74,9 +71,31 @@ class PlanActivity : ComponentActivity() {
             builder.create().show()
         }
 
+        unPlanB.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Unplan Selected?")
+            builder.setMessage("Revert selected item(s) to original list?")
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                for(obj in ListsqrePlanned.getEntireSelList()) {
+                    Listsqre.searchExisting(this, obj.getDisp(), obj.getDesc())
+                }
+                ListsqrePlanned.deleteSelNodes()
+                updateDbPlanned(this)
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
+
         guideTxt.setOnClickListener {
             GlobalVar.appGuide(this)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        title = "Planned List"
+        refreshView()
     }
 
     override fun onDestroy() {

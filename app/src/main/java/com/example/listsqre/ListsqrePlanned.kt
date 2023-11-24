@@ -10,8 +10,16 @@ class ListsqrePlanned {
             return id
         }
 
+        fun setDesc(newDesc: String) {
+            desc = newDesc
+        }
+
         fun getDesc(): String {
             return desc
+        }
+
+        fun setDisp(newDisp: String) {
+            disp = newDisp
         }
 
         fun getDisp(): String {
@@ -23,10 +31,6 @@ class ListsqrePlanned {
         private var idGen: Int = 0
         private var plannedList = mutableListOf<Node>()
         private var selectedList = mutableListOf<Node>()
-
-        fun getRecent(): Node {
-            return plannedList.last()
-        }
 
         fun addNode(desc: String, disp: String) {
             plannedList.add(Node(idGen++, desc, disp))
@@ -61,6 +65,10 @@ class ListsqrePlanned {
             return plannedList.toList()
         }
 
+        fun getEntireSelList(): List<Node> {
+            return selectedList.toList()
+        }
+
         fun clrPlannedList() {
             plannedList.clear()
         }
@@ -71,6 +79,16 @@ class ListsqrePlanned {
 
         fun planLTextCaption(): String {
             return plannedList.size.toString() + " Planned Item(s)"
+        }
+
+        fun setChangedDisp(strToChange: String, newDisp: String) { // O(n) to be optimized
+            for(obj in plannedList) {
+                if(obj.getDisp() == strToChange) {
+                    obj.setDisp(newDisp)
+                } else {
+                    // do nothing
+                }
+            }
         }
 
         private fun reassignTaskID() {

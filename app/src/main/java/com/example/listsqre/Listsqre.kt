@@ -1,5 +1,7 @@
 package com.example.listsqre
 
+import android.content.Context
+
 class Listsqre {
     class Node(private var id: Int, private var listname: String) {
         private lateinit var displayname: String
@@ -74,6 +76,26 @@ class Listsqre {
 
         fun clrSelList() {
             selectedList.clear()
+        }
+
+        fun searchExisting(context: Context, dispName: String, content: String) {
+            var existence: Boolean = false
+            for(obj in mutableList) {
+                if(dispName == obj.getDisplayname()) {
+                    existence = true
+                    storeDataToFile(context, obj.getListname(), content + GlobalVar.DELIMITER)
+                } else {
+                    // do nothing
+                }
+            }
+            if(!existence) {
+                createTextFile(context, dispName)
+                addNode(dispName, dispName)
+                feedIntoDb(context, getRecent().getId(), dispName, dispName)
+                storeDataToFile(context, dispName, content + GlobalVar.DELIMITER)
+            } else {
+                // do nothing
+            }
         }
 
         private fun reassignTaskID() {

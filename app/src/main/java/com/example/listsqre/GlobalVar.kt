@@ -8,12 +8,7 @@ object GlobalVar {
     const val DELIMITER: Char = '|'
     const val UAText: String = "348934"
     const val cfmText: String = "confirm"
-    private const val APP_GUIDE_DESC: String = "Multi purpose tool for creating lists. " +
-            "Clickable card views to view its contents or visit https link. " +
-            "A planned list card view for prioritizing or planning tasks. " +
-            "An options button on each card view for more editing option. " +
-            "A checkbox on each card view for more selection options. " +
-            "Please avoid duplicate list names upon list creation."
+    private const val APP_GUIDE_DESC: String = "Multi purpose tool for creating lists."
 
     fun appGuide(context: Context) {
         val builder = AlertDialog.Builder(context)
@@ -24,6 +19,6 @@ object GlobalVar {
 
     fun nullStrHandler(input: String?): String {
         // Using the safe call operator and the null-coalescing operator
-        return input?: "NULL string :("
+        return input?: "Error: Null string"
     }
 }
