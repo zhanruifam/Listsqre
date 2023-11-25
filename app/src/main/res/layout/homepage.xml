@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,11 +10,13 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="540dp"
+        android:layout_height="0dp"
+        android:layout_weight="80"
         android:contentDescription="@string/app_name">
 
         <LinearLayout
@@ -28,20 +31,19 @@
 
     </ScrollView>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="9"
         android:gravity="center"
+        android:padding="12dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/rst"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#eab56f"
             android:text="@string/reset"
             android:textAllCaps="true"
@@ -49,13 +51,14 @@
             android:textSize="18sp" />
 
         <Space
-            android:layout_width="10dp"
+            android:layout_width="9dp"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/add"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#eab56f"
             android:text="@string/create"
             android:textAllCaps="true"
@@ -64,14 +67,12 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
         android:gravity="center|end"
+        android:padding="12dp"
         android:orientation="horizontal">
 
         <TextView

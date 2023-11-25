@@ -27,15 +27,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homepage)
 
-        /* --- ON BOOT-UP START --- */
-        title = "Listsqre"
-        if(!UserAuthActivity.enteredOnce) {
-            UserAuthActivity.enteredOnce = true
-            readFromDb(this)
-        }
-        refreshView()
-        /* --- ON BOOT-UP END --- */
-
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
@@ -46,7 +37,7 @@ class MainActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Delete Selected?")
             builder.setView(rstdialogView)
-            builder.setPositiveButton("Delete") { dialog, _ ->
+            builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
@@ -67,7 +58,7 @@ class MainActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Create List:")
             builder.setView(dialogView)
-            builder.setPositiveButton("Create") { dialog, _ ->
+            builder.setPositiveButton("Proceed") { dialog, _ ->
                 val listName = createTxt.text.toString()
                 if(listName.isNotEmpty() && !checkDuplicate(this, listName)) {
                     createTextFile(this, listName)
@@ -87,12 +78,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        title = "Listsqre"
+        if(!UserAuthActivity.enteredOnce) {
+            UserAuthActivity.enteredOnce = true
+            readFromDb(this)
+        }
+        refreshView()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         removeAllCardViews()
     }
 
     private fun refreshView() {
+        Listsqre.clrSelList()
+        ListOfListsqre.clrSelList()
         removeAllCardViews()
         showCardViews()
     }
@@ -122,7 +125,7 @@ class MainActivity : ComponentActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
-                builder.setPositiveButton("Edit") { dialog, _ ->
+                builder.setPositiveButton("Proceed") { dialog, _ ->
                     obj.setDisplayname(dialogTxt.text.toString())
                     updateDb(this)
                     refreshView()

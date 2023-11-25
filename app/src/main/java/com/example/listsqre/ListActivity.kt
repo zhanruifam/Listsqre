@@ -33,13 +33,6 @@ class ListActivity : ComponentActivity() {
         fileName = intent.getStringExtra("LISTNAME").toString()
         dispName = intent.getStringExtra("DISPNAME").toString()
 
-        /* --- ON BOOT-UP START --- */
-        title = dispName
-        ListOfListsqre.deleteAllNodes()
-        readFromFile(this, fileName)
-        refreshView()
-        /* --- ON BOOT-UP END --- */
-
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
@@ -50,7 +43,7 @@ class ListActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Delete Selected?")
             builder.setView(rstdialogView)
-            builder.setPositiveButton("Delete") { dialog, _ ->
+            builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
                     ListOfListsqre.deleteSelNodes()
@@ -70,7 +63,7 @@ class ListActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Add Onto List:")
             builder.setView(dialogView)
-            builder.setPositiveButton("Create") { dialog, _ ->
+            builder.setPositiveButton("Proceed") { dialog, _ ->
                 val elemName = createTxt.text.toString()
                 if(elemName.isNotEmpty()) {
                     ListOfListsqre.addNode(elemName)
@@ -89,12 +82,22 @@ class ListActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        title = dispName
+        ListOfListsqre.deleteAllNodes()
+        readFromFile(this, fileName)
+        refreshView()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         removeAllCardViews()
     }
 
     private fun refreshView() {
+        Listsqre.clrSelList()
+        ListOfListsqre.clrSelList()
         removeAllCardViews()
         showCardViews()
     }
@@ -142,7 +145,7 @@ class ListActivity : ComponentActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
-                builder.setPositiveButton("Edit") { dialog, _ ->
+                builder.setPositiveButton("Proceed") { dialog, _ ->
                     obj.setElemname(dialogTxt.text.toString())
                     updateTextFile(this, fileName)
                     refreshView()

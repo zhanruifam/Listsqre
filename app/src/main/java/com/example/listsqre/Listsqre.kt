@@ -72,6 +72,10 @@ class Listsqre {
             selectedList.clear()
         }
 
+        fun clrSelList() {
+            selectedList.clear()
+        }
+
         private fun reassignTaskID() {
             for((iterator, obj) in getEntireList().withIndex()) {
                 obj.setId(iterator)
