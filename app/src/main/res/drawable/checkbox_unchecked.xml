@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="30dp"
-    android:height="30dp"
-    android:viewportWidth="30.0"
-    android:viewportHeight="30.0">
+    android:width="35dp"
+    android:height="35dp"
+    android:viewportWidth="35.0"
+    android:viewportHeight="35.0">
 
     <!-- Hollow Box -->
     <path
-        android:strokeWidth="2"
-        android:strokeColor="#eab56f" android:pathData="M2,2h26v26h-26v-26Z" />
+        android:strokeWidth="4"
+        android:strokeColor="#eab56f"
+        android:pathData="M2,2 L33,2 L33,33 L2,33 Z" />
 
 </vector>

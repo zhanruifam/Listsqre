@@ -4,29 +4,24 @@
     android:viewportWidth="50.0"
     android:viewportHeight="50.0">
 
-    <!-- Hollow Box -->
-    <path
-        android:strokeWidth="2"
-        android:strokeColor="#eab56f" android:pathData="M2,2h46v46h-46v-0Z" />
-
     <!-- First line -->
     <path
-        android:strokeWidth="3"
-        android:strokeColor="#eab56f" android:pathData="M10,16 L40,16" />
+        android:strokeWidth="4"
+        android:strokeColor="#eab56f" android:pathData="M8,13 L42,13" />
 
     <!-- Second line -->
     <path
-        android:strokeWidth="3"
-        android:strokeColor="#eab56f" android:pathData="M10,22 L40,22" />
+        android:strokeWidth="4"
+        android:strokeColor="#eab56f" android:pathData="M8,21 L42,21" />
 
     <!-- Third line -->
     <path
-        android:strokeWidth="3"
-        android:strokeColor="#eab56f" android:pathData="M10,28 L40,28" />
+        android:strokeWidth="4"
+        android:strokeColor="#eab56f" android:pathData="M8,29 L42,29" />
 
     <!-- Fourth line -->
     <path
-        android:strokeWidth="3"
-        android:strokeColor="#eab56f" android:pathData="M10,34 L40,34" />
+        android:strokeWidth="4"
+        android:strokeColor="#eab56f" android:pathData="M8,37 L42,37" />
 
 </vector>
