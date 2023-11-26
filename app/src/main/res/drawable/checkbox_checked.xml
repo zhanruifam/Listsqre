@@ -5,9 +5,15 @@
     android:viewportWidth="35.0"
     android:viewportHeight="35.0">
 
+    <!-- Hollow Box -->
+    <path
+        android:strokeWidth="4"
+        android:strokeColor="#eab56f"
+        android:pathData="M2,2 L33,2 L33,33 L2,33 Z" />
+
     <!-- Filled Box -->
     <path
         android:fillColor="#eab56f"
-        android:pathData="M0,0 L35,0 L35,35 L0,35 Z" />
+        android:pathData="M10,10 L25,10 L25,25 L10,25 Z" />
 
 </vector>

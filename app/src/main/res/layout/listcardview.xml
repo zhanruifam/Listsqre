@@ -31,11 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:fontFamily="casual"
-            android:maxLines="1"
+            android:maxLines="3"
             android:textColor="#eab56f"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="24sp" />
 
         <Space
             android:layout_width="10dp"

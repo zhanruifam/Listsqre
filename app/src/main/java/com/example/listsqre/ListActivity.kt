@@ -48,8 +48,14 @@ class ListActivity : ComponentActivity() {
                 if(rstTxt == GlobalVar.cfmText) {
                     ListOfListsqre.deleteSelNodes()
                     updateTextFile(this, fileName)
-                } else {
-                    // do nothing
+                } else { /** error handling **/
+                    if(rstTxt.isEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                    } else if(rstTxt.isNotEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                    }
                 }
                 refreshView()
                 dialog.dismiss()
@@ -68,8 +74,14 @@ class ListActivity : ComponentActivity() {
                 if(elemName.isNotEmpty()) {
                     ListOfListsqre.addNode(elemName)
                     updateTextFile(this, fileName)
-                } else {
-                    // do nothing
+                } else { /** error handling **/
+                    if(elemName.isEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                    } else if(elemName.isNotEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.DUPLICATE_INPUT)
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                    }
                 }
                 refreshView()
                 dialog.dismiss()
@@ -146,8 +158,17 @@ class ListActivity : ComponentActivity() {
                 builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
                 builder.setPositiveButton("Proceed") { dialog, _ ->
-                    obj.setElemname(dialogTxt.text.toString())
-                    updateTextFile(this, fileName)
+                    val elemName = dialogTxt.text.toString()
+                    if(elemName.isNotEmpty()) {
+                        obj.setElemname(elemName)
+                        updateTextFile(this, fileName)
+                    } else { /** error handling **/
+                        if(elemName.isEmpty()) {
+                            GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                        } else {
+                            GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                        }
+                    }
                     refreshView()
                     dialog.dismiss()
                 }

@@ -43,8 +43,14 @@ class MainActivity : ComponentActivity() {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
                     Listsqre.deleteSelNodes()
                     updateDb(this)
-                } else {
-                    // do nothing
+                } else { /** error handling **/
+                    if(rstTxt.isEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                    } else if(rstTxt.isNotEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                    }
                 }
                 refreshView()
                 dialog.dismiss()
@@ -64,8 +70,14 @@ class MainActivity : ComponentActivity() {
                     createTextFile(this, listName)
                     Listsqre.addNode(listName, listName)
                     feedIntoDb(this, Listsqre.getRecent().getId(), listName, listName)
-                } else {
-                    // do nothing
+                } else { /** error handling **/
+                    if(listName.isEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                    } else if(listName.isNotEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.DUPLICATE_INPUT)
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                    }
                 }
                 refreshView()
                 dialog.dismiss()
@@ -126,8 +138,17 @@ class MainActivity : ComponentActivity() {
                 builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
                 builder.setPositiveButton("Proceed") { dialog, _ ->
-                    obj.setDisplayname(dialogTxt.text.toString())
-                    updateDb(this)
+                    val dispName = dialogTxt.text.toString()
+                    if(dispName.isNotEmpty()) {
+                        obj.setDisplayname(dispName)
+                        updateDb(this)
+                    } else { /** error handling **/
+                        if(dispName.isEmpty()) {
+                            GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                        } else {
+                            GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                        }
+                    }
                     refreshView()
                     dialog.dismiss()
                 }
