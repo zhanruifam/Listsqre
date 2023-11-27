@@ -5,9 +5,9 @@ import android.content.Context
 
 object GlobalVar {
     enum class ErrorType(val code: Int, val description: String) {
-        INVALID_INPUT       (400, "Invalid input provided"),
-        DUPLICATE_INPUT     (501, "Duplicate input provided"),
-        EMPTY_INPUT         (502, "Empty input provided"),
+        INVALID_INPUT       (900, "Invalid input provided"),
+        DUPLICATE_INPUT     (901, "Duplicate input provided"),
+        EMPTY_INPUT         (902, "Empty input provided"),
         UNKNOWN_ERROR       (999, "Unknown error")
     }
 
@@ -18,7 +18,7 @@ object GlobalVar {
     private const val APP_GUIDE_DESC: String = "Multi purpose tool for creating lists. " +
             "Clickable card views to view its contents or visit https link. " +
             "A button on each card view for more editing option. " +
-            "A checkbox on each card view for selection delete. " +
+            "A checkbox on each card view for select operations. " +
             "Please avoid duplicate list names upon list creation."
 
     fun errDialog(context: Context, errType: ErrorType) {
