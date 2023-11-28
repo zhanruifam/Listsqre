@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
 
 class ListActivity : ComponentActivity() {
+    private lateinit var notificationHelper: NotificationHelper
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
@@ -27,11 +28,22 @@ class ListActivity : ComponentActivity() {
     private lateinit var resetA: Button
     private lateinit var create: Button
 
+    override fun onStart() {
+        super.onStart()
+        title = dispName
+        ListOfListsqre.deleteAllNodes()
+        readFromFile(this, fileName)
+        refreshView()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.listpage)
+
         fileName = intent.getStringExtra("LISTNAME").toString()
         dispName = intent.getStringExtra("DISPNAME").toString()
+
+        notificationHelper = NotificationHelper(this)
 
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
@@ -77,8 +89,6 @@ class ListActivity : ComponentActivity() {
                 } else { /** error handling **/
                     if(elemName.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                    } else if(elemName.isNotEmpty()) {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.DUPLICATE_INPUT)
                     } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
                     }
@@ -92,14 +102,6 @@ class ListActivity : ComponentActivity() {
         guideTxt.setOnClickListener {
             GlobalVar.appGuide(this)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        title = dispName
-        ListOfListsqre.deleteAllNodes()
-        readFromFile(this, fileName)
-        refreshView()
     }
 
     override fun onDestroy() {
