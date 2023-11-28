@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
 
 class MainActivity : ComponentActivity() {
+    private lateinit var notificationHelper: NotificationHelper
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
@@ -23,9 +24,22 @@ class MainActivity : ComponentActivity() {
     private lateinit var resetA: Button
     private lateinit var create: Button
 
+    override fun onStart() {
+        super.onStart()
+        title = "Listsqre"
+        if(!UserAuthActivity.enteredOnce) {
+            UserAuthActivity.enteredOnce = true
+            readFromDb(this)
+        }
+        refreshView()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homepage)
+
+        notificationHelper = NotificationHelper(this)
+        notificationHelper.showNotification("Flexi Benefits", "Listsqre notifications")
 
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
@@ -88,16 +102,6 @@ class MainActivity : ComponentActivity() {
         guideTxt.setOnClickListener {
             GlobalVar.appGuide(this)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        title = "Listsqre"
-        if(!UserAuthActivity.enteredOnce) {
-            UserAuthActivity.enteredOnce = true
-            readFromDb(this)
-        }
-        refreshView()
     }
 
     override fun onDestroy() {
