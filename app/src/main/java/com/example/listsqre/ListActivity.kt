@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
 
 class ListActivity : ComponentActivity() {
-    private lateinit var notificationHelper: NotificationHelper
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
@@ -25,6 +24,7 @@ class ListActivity : ComponentActivity() {
     private lateinit var fileName: String
     private lateinit var dispName: String
     private lateinit var options: Button
+    private lateinit var notify: Button
     private lateinit var resetA: Button
     private lateinit var create: Button
 
@@ -43,9 +43,8 @@ class ListActivity : ComponentActivity() {
         fileName = intent.getStringExtra("LISTNAME").toString()
         dispName = intent.getStringExtra("DISPNAME").toString()
 
-        notificationHelper = NotificationHelper(this)
-
         resetA = findViewById(R.id.rst)
+        notify = findViewById(R.id.nfy)
         create = findViewById(R.id.add)
         guideTxt = findViewById(R.id.instructions)
 
@@ -65,6 +64,32 @@ class ListActivity : ComponentActivity() {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
                     } else if(rstTxt.isNotEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                    }
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
+
+        notify.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Notify Daily?")
+            builder.setMessage("Set notification for selected items")
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                if(ListOfListsqre.getEntireSelList().isNotEmpty()) {
+                    GlobalVar.notiTitle = "In $dispName list: "
+                    for(obj in ListOfListsqre.getEntireSelList()) {
+                        GlobalVar.notiDescr += obj.getElemname() + ", "
+                    }
+                    scheduleAlarm(this)
+                } else { /** error handling **/
+                    GlobalVar.notiTitle = ""
+                    GlobalVar.notiDescr = ""
+                    if(ListOfListsqre.getEntireSelList().isEmpty()) {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_SELECTION)
                     } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
                     }
@@ -128,7 +153,7 @@ class ListActivity : ComponentActivity() {
 
     private fun showCardViews() {
         for(obj in ListOfListsqre.getEntireList()) {
-            val card = layoutInflater.inflate(R.layout.listcardview, CardView(this))
+            val card = layoutInflater.inflate(R.layout.cardview, CardView(this))
             card.setOnClickListener {
                 if(isLinkValid(obj.getElemname())) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(obj.getElemname()))

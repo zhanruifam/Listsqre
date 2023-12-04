@@ -1,62 +1,86 @@
 package com.example.listsqre
 
 import android.os.Build
+import java.util.Calendar
+import android.content.Intent
 import android.content.Context
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-class NotificationHelper(private val context: Context) {
-
-    private val channelId = "my_channel_id"
-    private val notificationId = 1
-
-    init {
-        createNotificationChannel()
+class AlarmReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        createNotificationChannel(context)
+        createNotification(context)
+        scheduleAlarm(context)
     }
+}
 
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "My Channel"
-            val descriptionText = "Channel Description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, name, importance).apply {
-                description = descriptionText
-            }
-
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
+private fun createNotificationChannel(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val channel = NotificationChannel(
+            context.getString(R.string.channel_id),
+            context.getString(R.string.channel_name),
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+        channel.description = context.getString(R.string.channel_description)
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
     }
+}
 
-    fun showNotification(title: String, content: String) {
-        // Check if the FOREGROUND_SERVICE permission is granted
-        if (ContextCompat.checkSelfPermission(
-                context,
-                "android.permission.FOREGROUND_SERVICE"
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val builder = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.checkbox_checked)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+private fun createNotification(context: Context) {
+    if(ContextCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS")
+        == PackageManager.PERMISSION_GRANTED) {
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.channel_id))
+            .setSmallIcon(R.drawable.opt_button)
+            .setContentTitle(GlobalVar.notiTitle)
+            .setContentText(GlobalVar.notiDescr)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.notify(0, builder.build())
+    } else {
+        // ActivityCompat.requestPermissions()
+    }
+}
 
-            with(NotificationManagerCompat.from(context)) {
-                // notificationId is a unique int for each notification that you must define
-                notify(notificationId, builder.build())
-            }
+fun scheduleAlarm(context: Context) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val calendar = Calendar.getInstance().apply {
+        timeInMillis = System.currentTimeMillis()
+        set(Calendar.HOUR_OF_DAY, 9)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        if(timeInMillis < System.currentTimeMillis()) {
+            add(Calendar.DAY_OF_YEAR, 1)
         } else {
-            // Handle the case where the permission is not granted
-            // You may show a rationale or request the permission from the user
-            // TODO: request permission from user
+            // do nothing
         }
+    }
+    val alarmIntent = Intent(context, AlarmReceiver::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(
+        context,
+        0,
+        alarmIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
+    } else {
+        alarmManager.setExact(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
     }
 }
