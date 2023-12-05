@@ -1,6 +1,5 @@
 package com.example.listsqre
 
-import java.net.URL
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -18,13 +17,14 @@ class ListActivity : ComponentActivity() {
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
     private lateinit var resetTxt: TextView
-    private lateinit var guideTxt: TextView
+    private lateinit var hourNoti: TextView
+    private lateinit var minuNoti: TextView
+    private lateinit var notifTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var fileName: String
     private lateinit var dispName: String
     private lateinit var options: Button
-    private lateinit var notify: Button
     private lateinit var resetA: Button
     private lateinit var create: Button
 
@@ -44,9 +44,8 @@ class ListActivity : ComponentActivity() {
         dispName = intent.getStringExtra("DISPNAME").toString()
 
         resetA = findViewById(R.id.rst)
-        notify = findViewById(R.id.nfy)
         create = findViewById(R.id.add)
-        guideTxt = findViewById(R.id.instructions)
+        notifTxt = findViewById(R.id.notify)
 
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
@@ -59,39 +58,11 @@ class ListActivity : ComponentActivity() {
                 if(rstTxt == GlobalVar.cfmText) {
                     ListOfListsqre.deleteSelNodes()
                     updateTextFile(this, fileName)
-                } else { /** error handling **/
+                } else {
                     if(rstTxt.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                    } else if(rstTxt.isNotEmpty()) {
+                    } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
-                    }
-                }
-                refreshView()
-                dialog.dismiss()
-            }
-            builder.create().show()
-        }
-
-        notify.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Notify Daily?")
-            builder.setMessage("Set notification for selected items")
-            builder.setPositiveButton("Proceed") { dialog, _ ->
-                if(ListOfListsqre.getEntireSelList().isNotEmpty()) {
-                    GlobalVar.notiTitle = "In $dispName list: "
-                    for(obj in ListOfListsqre.getEntireSelList()) {
-                        GlobalVar.notiDescr += obj.getElemname() + ", "
-                    }
-                    scheduleAlarm(this)
-                } else { /** error handling **/
-                    GlobalVar.notiTitle = ""
-                    GlobalVar.notiDescr = ""
-                    if(ListOfListsqre.getEntireSelList().isEmpty()) {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_SELECTION)
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
                     }
                 }
                 refreshView()
@@ -111,12 +82,8 @@ class ListActivity : ComponentActivity() {
                 if(elemName.isNotEmpty()) {
                     ListOfListsqre.addNode(elemName)
                     updateTextFile(this, fileName)
-                } else { /** error handling **/
-                    if(elemName.isEmpty()) {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
-                    }
+                } else {
+                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
                 }
                 refreshView()
                 dialog.dismiss()
@@ -124,8 +91,31 @@ class ListActivity : ComponentActivity() {
             builder.create().show()
         }
 
-        guideTxt.setOnClickListener {
-            GlobalVar.appGuide(this)
+        notifTxt.setOnClickListener {
+            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
+            hourNoti = notiView.findViewById(R.id.hour)
+            minuNoti = notiView.findViewById(R.id.min)
+            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Set Time:")
+            builder.setView(notiView)
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                val hourTxt = hourNoti.text.toString()
+                val minTxt = minuNoti.text.toString()
+                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
+                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
+                        scheduleAlarm(this, hourTxt.toInt(), minTxt.toInt())
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
+                    }
+                } else {
+                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
         }
     }
 
@@ -141,21 +131,11 @@ class ListActivity : ComponentActivity() {
         showCardViews()
     }
 
-    private fun isLinkValid(urlString: String): Boolean {
-        // URL() throws an exception if link is invalid
-        return try {
-            URL(urlString)
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     private fun showCardViews() {
         for(obj in ListOfListsqre.getEntireList()) {
             val card = layoutInflater.inflate(R.layout.cardview, CardView(this))
             card.setOnClickListener {
-                if(isLinkValid(obj.getElemname())) {
+                if(GlobalVar.isLinkValid(obj.getElemname())) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(obj.getElemname()))
                     startActivity(intent)
                 } else {
@@ -189,12 +169,8 @@ class ListActivity : ComponentActivity() {
                     if(elemName.isNotEmpty()) {
                         obj.setElemname(elemName)
                         updateTextFile(this, fileName)
-                    } else { /** error handling **/
-                        if(elemName.isEmpty()) {
-                            GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                        } else {
-                            GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
-                        }
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
                     }
                     refreshView()
                     dialog.dismiss()

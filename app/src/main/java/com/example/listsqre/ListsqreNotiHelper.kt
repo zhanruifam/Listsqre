@@ -18,7 +18,7 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         createNotificationChannel(context)
         createNotification(context)
-        scheduleAlarm(context)
+        // scheduleAlarm(context)
     }
 }
 
@@ -40,8 +40,8 @@ private fun createNotification(context: Context) {
         == PackageManager.PERMISSION_GRANTED) {
         val builder = NotificationCompat.Builder(context, context.getString(R.string.channel_id))
             .setSmallIcon(R.drawable.opt_button)
-            .setContentTitle(GlobalVar.notiTitle)
-            .setContentText(GlobalVar.notiDescr)
+            .setContentTitle(context.getString(R.string.notification_title))
+            .setContentText(context.getString(R.string.notification_text))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(0, builder.build())
@@ -50,12 +50,12 @@ private fun createNotification(context: Context) {
     }
 }
 
-fun scheduleAlarm(context: Context) {
+fun scheduleAlarm(context: Context, hour: Int, min: Int) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val calendar = Calendar.getInstance().apply {
         timeInMillis = System.currentTimeMillis()
-        set(Calendar.HOUR_OF_DAY, 9)
-        set(Calendar.MINUTE, 0)
+        set(Calendar.HOUR_OF_DAY, hour)
+        set(Calendar.MINUTE, min)
         set(Calendar.SECOND, 0)
         if(timeInMillis < System.currentTimeMillis()) {
             add(Calendar.DAY_OF_YEAR, 1)
