@@ -12,12 +12,13 @@ import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
 
 class MainActivity : ComponentActivity() {
-    private lateinit var notificationHelper: NotificationHelper
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
     private lateinit var resetTxt: TextView
-    private lateinit var guideTxt: TextView
+    private lateinit var hourNoti: TextView
+    private lateinit var minuNoti: TextView
+    private lateinit var notifTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var options: Button
@@ -38,12 +39,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homepage)
 
-        notificationHelper = NotificationHelper(this)
-        notificationHelper.showNotification("Flexi Benefits", "Listsqre notifications")
-
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
-        guideTxt = findViewById(R.id.instructions)
+        notifTxt = findViewById(R.id.notify)
 
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
@@ -57,13 +55,11 @@ class MainActivity : ComponentActivity() {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
                     Listsqre.deleteSelNodes()
                     updateDb(this)
-                } else { /** error handling **/
+                } else {
                     if(rstTxt.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                    } else if(rstTxt.isNotEmpty()) {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
                     } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
                     }
                 }
                 refreshView()
@@ -84,13 +80,11 @@ class MainActivity : ComponentActivity() {
                     createTextFile(this, listName)
                     Listsqre.addNode(listName, listName)
                     feedIntoDb(this, Listsqre.getRecent().getId(), listName, listName)
-                } else { /** error handling **/
+                } else {
                     if(listName.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                    } else if(listName.isNotEmpty()) {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.DUPLICATE_INPUT)
                     } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.DUPLICATE_INPUT)
                     }
                 }
                 refreshView()
@@ -99,8 +93,31 @@ class MainActivity : ComponentActivity() {
             builder.create().show()
         }
 
-        guideTxt.setOnClickListener {
-            GlobalVar.appGuide(this)
+        notifTxt.setOnClickListener {
+            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
+            hourNoti = notiView.findViewById(R.id.hour)
+            minuNoti = notiView.findViewById(R.id.min)
+            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Set Time:")
+            builder.setView(notiView)
+            builder.setPositiveButton("Proceed") { dialog, _ ->
+                val hourTxt = hourNoti.text.toString()
+                val minTxt = minuNoti.text.toString()
+                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
+                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
+                        scheduleAlarm(this, hourTxt.toInt(), minTxt.toInt())
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
+                    }
+                } else {
+                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
         }
     }
 
@@ -146,12 +163,8 @@ class MainActivity : ComponentActivity() {
                     if(dispName.isNotEmpty()) {
                         obj.setDisplayname(dispName)
                         updateDb(this)
-                    } else { /** error handling **/
-                        if(dispName.isEmpty()) {
-                            GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                        } else {
-                            GlobalVar.errDialog(this, GlobalVar.ErrorType.UNKNOWN_ERROR)
-                        }
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
                     }
                     refreshView()
                     dialog.dismiss()

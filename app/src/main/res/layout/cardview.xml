@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/repCard"
+    app:contentPadding="12dp"
+    app:cardBackgroundColor="#254252"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    app:cardBackgroundColor="#254252"
-    app:contentPadding="12dp">
+    android:layout_centerHorizontal="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -41,9 +41,9 @@
 
         <Button
             android:id="@+id/options"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_opt_button_selector" />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/opt_button" />
 
     </LinearLayout>
 

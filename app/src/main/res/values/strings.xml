@@ -2,12 +2,21 @@
 
     <string name="reset">delete</string>
     <string name="create">create</string>
+    <string name="notify">notify</string>
     <string name="more_options">Edit</string>
     <string name="app_name">Listsqre</string>
-    <string name="app_guide">[User Guide]</string>
+    <string name="hour">Hour(24h):</string>
+    <string name="minute">Min(24h):</string>
+    <string name="app_guide">[notify_me]</string>
     <string name="ua_description">Passcode:</string>
     <string name="ua_btn_description">Enter</string>
     <string name="description">Type something:</string>
     <string name="cfm_description">Type \"confirm\" to proceed</string>
+
+    <string name="channel_id">channelId</string>
+    <string name="channel_name">channelName</string>
+    <string name="channel_description">channelDescription</string>
+    <string name="notification_title">Check Listsqre</string>
+    <string name="notification_text">Your notification has arrived</string>
 
 </resources>

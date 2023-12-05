@@ -55,6 +55,10 @@ class ListOfListsqre {
             return mutableList.toList()
         }
 
+        fun getEntireSelList(): List<Node> {
+            return selectedList.toList()
+        }
+
         fun deleteAllNodes() { // obsolete
             idGen = 0
             while(getEntireList().isNotEmpty()) {
