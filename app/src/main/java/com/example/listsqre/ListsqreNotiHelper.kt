@@ -27,7 +27,7 @@ private fun createNotificationChannel(context: Context) {
         val channel = NotificationChannel(
             context.getString(R.string.channel_id),
             context.getString(R.string.channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         )
         channel.description = context.getString(R.string.channel_description)
         val notificationManager = context.getSystemService(NotificationManager::class.java)
@@ -42,7 +42,7 @@ private fun createNotification(context: Context) {
             .setSmallIcon(R.drawable.opt_button)
             .setContentTitle(context.getString(R.string.notification_title))
             .setContentText(context.getString(R.string.notification_text))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(0, builder.build())
     } else {
