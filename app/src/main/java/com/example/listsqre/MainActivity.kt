@@ -18,12 +18,12 @@ class MainActivity : ComponentActivity() {
     private lateinit var resetTxt: TextView
     private lateinit var hourNoti: TextView
     private lateinit var minuNoti: TextView
-    private lateinit var notifTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var options: Button
     private lateinit var resetA: Button
     private lateinit var create: Button
+    private lateinit var notify: Button
 
     override fun onStart() {
         super.onStart()
@@ -41,13 +41,13 @@ class MainActivity : ComponentActivity() {
 
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
-        notifTxt = findViewById(R.id.notify)
+        notify = findViewById(R.id.nfy)
 
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete Selected?")
+            builder.setTitle("Delete Selected Item?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
             builder.create().show()
         }
 
-        notifTxt.setOnClickListener {
+        notify.setOnClickListener {
             val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
             hourNoti = notiView.findViewById(R.id.hour)
             minuNoti = notiView.findViewById(R.id.min)
