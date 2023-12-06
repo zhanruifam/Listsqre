@@ -51,7 +51,7 @@ class ListActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete Selected?")
+            builder.setTitle("Delete Selected Item?")
             builder.setView(rstdialogView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
