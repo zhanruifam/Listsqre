@@ -77,6 +77,27 @@ class ListOfListsqre {
             selectedList.clear()
         }
 
+        fun createNotiTitle(): String {
+            return "Reminder for the following item(s):"
+        }
+
+        fun createNotiDescr(): String {
+            var descr = ""
+            if(selectedList.isEmpty()) {
+                return descr
+            } else {
+                for(obj in selectedList) {
+                    descr += obj.getElemname()
+                    if(obj != selectedList.last()) {
+                        descr += ", "
+                    } else {
+                        // do nothing
+                    }
+                }
+            }
+            return descr
+        }
+
         private fun reassignTaskID() {
             for((iterator, obj) in getEntireList().withIndex()) {
                 obj.setId(iterator)

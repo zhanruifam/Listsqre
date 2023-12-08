@@ -98,13 +98,21 @@ class ListActivity : ComponentActivity() {
             hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Set Time:")
+            builder.setTitle("Set Time: (" + upcomingNoti(this) + ")")
             builder.setView(notiView)
             builder.setPositiveButton("Proceed") { dialog, _ ->
                 val hourTxt = hourNoti.text.toString()
                 val minTxt = minuNoti.text.toString()
                 if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
                     if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
+                        clearNotiDb(this)
+                        feedIntoNotiDb(
+                            this,
+                            0, // first entry
+                            ListOfListsqre.createNotiTitle(),
+                            ListOfListsqre.createNotiDescr(),
+                            hourTxt.toInt(),
+                            minTxt.toInt())
                         scheduleAlarm(this, hourTxt.toInt(), minTxt.toInt())
                     } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
