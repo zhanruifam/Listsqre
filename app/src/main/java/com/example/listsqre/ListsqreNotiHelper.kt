@@ -17,8 +17,9 @@ import androidx.core.app.NotificationManagerCompat
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         createNotificationChannel(context)
-        createNotification(context)
-        // scheduleAlarm(context)
+        createNotification(context, readNotiTitle(context), readNotiDescr(context))
+        clearNotiDb(context)
+        // scheduleAlarm again for recurring notifications
     }
 }
 
@@ -35,13 +36,13 @@ private fun createNotificationChannel(context: Context) {
     }
 }
 
-private fun createNotification(context: Context) {
+private fun createNotification(context: Context, title: String, descr: String) {
     if(ContextCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS")
         == PackageManager.PERMISSION_GRANTED) {
         val builder = NotificationCompat.Builder(context, context.getString(R.string.channel_id))
             .setSmallIcon(R.drawable.opt_button)
-            .setContentTitle(context.getString(R.string.notification_title))
-            .setContentText(context.getString(R.string.notification_text))
+            .setContentTitle(title)
+            .setContentText(descr)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(0, builder.build())
