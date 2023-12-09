@@ -47,9 +47,9 @@ class MainActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete Selected Item?")
+            builder.setTitle("Delete Selected?")
             builder.setView(rstdialogView)
-            builder.setPositiveButton("Proceed") { dialog, _ ->
+            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
                 if(rstTxt == GlobalVar.cfmText) {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Create List:")
             builder.setView(dialogView)
-            builder.setPositiveButton("Proceed") { dialog, _ ->
+            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val listName = createTxt.text.toString()
                 if(listName.isNotEmpty() && !checkDuplicate(this, listName)) {
                     createTextFile(this, listName)
@@ -100,9 +100,9 @@ class MainActivity : ComponentActivity() {
             hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Set Time: (" + upcomingNoti(this) + ")")
+            builder.setTitle("Set Daily: (" + upcomingNoti(this) + ")")
             builder.setView(notiView)
-            builder.setPositiveButton("Proceed") { dialog, _ ->
+            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val hourTxt = hourNoti.text.toString()
                 val minTxt = minuNoti.text.toString()
                 if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
@@ -115,7 +115,7 @@ class MainActivity : ComponentActivity() {
                             Listsqre.createNotiDescr(),
                             hourTxt.toInt(),
                             minTxt.toInt())
-                        scheduleAlarm(this, hourTxt.toInt(), minTxt.toInt())
+                        scheduleAlarm(this, readNotiDb(this))
                     } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
                     }
@@ -166,7 +166,7 @@ class MainActivity : ComponentActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Make Changes:")
                 builder.setView(dialogView)
-                builder.setPositiveButton("Proceed") { dialog, _ ->
+                builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                     val dispName = dialogTxt.text.toString()
                     if(dispName.isNotEmpty()) {
                         obj.setDisplayname(dispName)

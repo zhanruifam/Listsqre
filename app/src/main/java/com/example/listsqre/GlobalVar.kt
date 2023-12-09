@@ -13,6 +13,7 @@ object GlobalVar {
     }
 
     const val EOF: Int = -1
+    const val notifId: Int = 0
     const val DELIMITER: Char = '|'
     const val UAText: String = "348934"
     const val cfmText: String = "confirm"

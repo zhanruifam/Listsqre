@@ -3,6 +3,7 @@
     <string name="reset">delete</string>
     <string name="create">create</string>
     <string name="notify">notify</string>
+    <string name="proceed">PROCEED</string>
     <string name="hour">Hour(0–23):</string>
     <string name="minute">Min(0–59):</string>
     <string name="more_options">Edit</string>
