@@ -29,6 +29,8 @@ object NotiTableTemplate : BaseColumns { // Schema for Notifications
         "DROP TABLE IF EXISTS $TABLE_NAME"
 }
 
+data class ListsqreNotiData(val t: String, val d: String, val h: Int, val m: Int)
+
 class ListsqreNotiDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
@@ -69,34 +71,23 @@ fun feedIntoNotiDb(context: Context, Id: Int, title: String, descr: String, hr: 
     db.close()
 }
 
-fun readNotiTitle(context: Context): String {
-    var title = ""
+fun readNotiDb(context: Context): ListsqreNotiData {
+    lateinit var data: ListsqreNotiData
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.readableDatabase
     val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
         if (moveToFirst()) {
-            title = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME))
+            val t = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME))
+            val d = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_02))
+            val h = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_03))
+            val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
+            data = ListsqreNotiData(t, d, h, m)
         }
     }
     cursor.close()
     db.close()
-    return title
-}
-
-fun readNotiDescr(context: Context): String {
-    var descr = ""
-    val dbHelper = ListsqreNotiDbHelper(context)
-    val db = dbHelper.readableDatabase
-    val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
-    with(cursor) {
-        if (moveToFirst()) {
-            descr = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_02))
-        }
-    }
-    cursor.close()
-    db.close()
-    return descr
+    return data
 }
 
 fun upcomingNoti(context: Context): String {

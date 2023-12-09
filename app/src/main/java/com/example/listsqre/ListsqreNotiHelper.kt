@@ -17,9 +17,8 @@ import androidx.core.app.NotificationManagerCompat
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         createNotificationChannel(context)
-        createNotification(context, readNotiTitle(context), readNotiDescr(context))
-        clearNotiDb(context)
-        // scheduleAlarm again for recurring notifications
+        createNotification(context, readNotiDb(context))
+        scheduleAlarm(context, readNotiDb(context)) // recurring daily
     }
 }
 
@@ -36,27 +35,28 @@ private fun createNotificationChannel(context: Context) {
     }
 }
 
-private fun createNotification(context: Context, title: String, descr: String) {
+private fun createNotification(context: Context, data: ListsqreNotiData) {
     if(ContextCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS")
         == PackageManager.PERMISSION_GRANTED) {
-        val builder = NotificationCompat.Builder(context, context.getString(R.string.channel_id))
-            .setSmallIcon(R.drawable.opt_button)
-            .setContentTitle(title)
-            .setContentText(descr)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
+            setSmallIcon(R.drawable.opt_button)
+            setContentTitle(data.t)
+            setContentText(data.d)
+            priority = NotificationCompat.PRIORITY_HIGH
+        }
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(0, builder.build())
+        notificationManager.notify(GlobalVar.notifId, builder.build())
     } else {
         // ActivityCompat.requestPermissions()
     }
 }
 
-fun scheduleAlarm(context: Context, hour: Int, min: Int) {
+fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val calendar = Calendar.getInstance().apply {
         timeInMillis = System.currentTimeMillis()
-        set(Calendar.HOUR_OF_DAY, hour)
-        set(Calendar.MINUTE, min)
+        set(Calendar.HOUR_OF_DAY, data.h)
+        set(Calendar.MINUTE, data.m)
         set(Calendar.SECOND, 0)
         if(timeInMillis < System.currentTimeMillis()) {
             add(Calendar.DAY_OF_YEAR, 1)
