@@ -48,9 +48,7 @@ class Listsqre {
         fun removeFromSelList(nodeToRemove: Node) {
             if(selectedList.contains(nodeToRemove)) {
                 selectedList.remove(nodeToRemove)
-            } else {
-                // do nothing
-            }
+            } else { /* do nothing */ }
         }
 
         fun getRecent(): Node {
@@ -89,9 +87,7 @@ class Listsqre {
                     descr += obj.getDisplayname()
                     if(obj != selectedList.last()) {
                         descr += ", "
-                    } else {
-                        // do nothing
-                    }
+                    } else { /* do nothing */ }
                 }
             }
             return descr
