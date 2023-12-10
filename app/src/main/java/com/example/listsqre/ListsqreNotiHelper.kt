@@ -1,6 +1,5 @@
 package com.example.listsqre
 
-import android.os.Build
 import java.util.Calendar
 import android.content.Intent
 import android.content.Context
@@ -23,16 +22,14 @@ class AlarmReceiver : BroadcastReceiver() {
 }
 
 private fun createNotificationChannel(context: Context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channel = NotificationChannel(
-            context.getString(R.string.channel_id),
-            context.getString(R.string.channel_name),
-            NotificationManager.IMPORTANCE_HIGH
-        )
-        channel.description = context.getString(R.string.channel_description)
-        val notificationManager = context.getSystemService(NotificationManager::class.java)
-        notificationManager.createNotificationChannel(channel)
-    }
+    val channel = NotificationChannel(
+        context.getString(R.string.channel_id),
+        context.getString(R.string.channel_name),
+        NotificationManager.IMPORTANCE_HIGH
+    )
+    channel.description = context.getString(R.string.channel_description)
+    val notificationManager = context.getSystemService(NotificationManager::class.java)
+    notificationManager.createNotificationChannel(channel)
 }
 
 private fun createNotification(context: Context, data: ListsqreNotiData) {
@@ -54,15 +51,12 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val calendar = Calendar.getInstance().apply {
-        timeInMillis = System.currentTimeMillis()
         set(Calendar.HOUR_OF_DAY, data.h)
         set(Calendar.MINUTE, data.m)
         set(Calendar.SECOND, 0)
         if(timeInMillis < System.currentTimeMillis()) {
             add(Calendar.DAY_OF_YEAR, 1)
-        } else {
-            // do nothing
-        }
+        } else { /* do nothing */ }
     }
     val alarmIntent = Intent(context, AlarmReceiver::class.java)
     val pendingIntent = PendingIntent.getBroadcast(
@@ -71,17 +65,22 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
         alarmIntent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
-    } else {
-        alarmManager.setExact(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
+    try {
+        if (alarmManager.canScheduleExactAlarms()) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+        } else {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+        }
+    } catch (e: SecurityException) {
+        // Handle SecurityException here
+        // do nothing for now
     }
 }

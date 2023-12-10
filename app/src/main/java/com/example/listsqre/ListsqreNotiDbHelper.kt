@@ -57,11 +57,11 @@ class ListsqreNotiDbHelper(context: Context) :
 
 // ----- global CRUD methods for handling database ----- //
 
-fun feedIntoNotiDb(context: Context, Id: Int, title: String, descr: String, hr: Int, min: Int) {
+fun feedIntoNotiDb(context: Context, id: Int, title: String, descr: String, hr: Int, min: Int) {
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.writableDatabase
     val values = ContentValues().apply {
-        put(NotiTableTemplate.COLUMN_NAME_ID, Id)
+        put(NotiTableTemplate.COLUMN_NAME_ID, id)
         put(NotiTableTemplate.COLUMN_NAME, title)
         put(NotiTableTemplate.COLUMN_NAME_02, descr)
         put(NotiTableTemplate.COLUMN_NAME_03, hr)

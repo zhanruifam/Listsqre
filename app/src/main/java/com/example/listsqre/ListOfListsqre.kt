@@ -46,9 +46,7 @@ class ListOfListsqre {
         fun removeFromSelList(nodeToRemove: Node) {
             if(selectedList.contains(nodeToRemove)) {
                 selectedList.remove(nodeToRemove)
-            } else {
-                // do nothing
-            }
+            } else { /* do nothing */ }
         }
 
         fun getEntireList(): List<Node> {
@@ -90,9 +88,7 @@ class ListOfListsqre {
                     descr += obj.getElemname()
                     if(obj != selectedList.last()) {
                         descr += ", "
-                    } else {
-                        // do nothing
-                    }
+                    } else { /* do nothing */ }
                 }
             }
             return descr
