@@ -17,6 +17,7 @@ object GlobalVar {
     const val DELIMITER: Char = '|'
     const val UAText: String = "348934"
     const val cfmText: String = "confirm"
+    var notifBoxFlag: Boolean = false
 
     fun isLinkValid(urlString: String): Boolean {
         // URL() throws an exception if link is invalid

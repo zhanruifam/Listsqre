@@ -15,9 +15,11 @@ import androidx.core.app.NotificationManagerCompat
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        createNotificationChannel(context)
-        createNotification(context, readNotiDb(context))
-        scheduleAlarm(context, readNotiDb(context)) // recurring daily
+        if(!isNotiDbEmpty(context)) {
+            createNotificationChannel(context)
+            createNotification(context, readNotiDb(context))
+            scheduleAlarm(context, readNotiDb(context)) // recurring daily
+        } else { /* do nothing */ }
     }
 }
 
@@ -35,7 +37,8 @@ private fun createNotificationChannel(context: Context) {
 private fun createNotification(context: Context, data: ListsqreNotiData) {
     if(ContextCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS")
         == PackageManager.PERMISSION_GRANTED) {
-        val builder = NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
+        val builder =
+            NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
             setSmallIcon(R.drawable.opt_button)
             setContentTitle(data.t)
             setContentText(data.d)
@@ -48,14 +51,22 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
     }
 }
 
+/* --- deprecated for now, replaced by checking empty Db ---
+fun deleteNotification(context: Context, notificationId: Int) {
+    val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    nManager.cancel(notificationId)
+}
+*/
+
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val calendar = Calendar.getInstance().apply {
+        timeInMillis = System.currentTimeMillis()
         set(Calendar.HOUR_OF_DAY, data.h)
         set(Calendar.MINUTE, data.m)
         set(Calendar.SECOND, 0)
-        if(timeInMillis < System.currentTimeMillis()) {
-            add(Calendar.DAY_OF_YEAR, 1)
+        if(timeInMillis <= System.currentTimeMillis()) {
+            add(Calendar.DATE, 1)
         } else { /* do nothing */ }
     }
     val alarmIntent = Intent(context, AlarmReceiver::class.java)
@@ -73,7 +84,7 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
                 pendingIntent
             )
         } else {
-            alarmManager.setAndAllowWhileIdle(
+            alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 pendingIntent

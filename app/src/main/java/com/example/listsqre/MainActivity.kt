@@ -19,6 +19,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var hourNoti: TextView
     private lateinit var minuNoti: TextView
     private lateinit var cardText: TextView
+    private lateinit var notiText: TextView
+    private lateinit var notifBox: CheckBox
     private lateinit var checkBox: CheckBox
     private lateinit var options: Button
     private lateinit var resetA: Button
@@ -42,6 +44,12 @@ class MainActivity : ComponentActivity() {
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
         notify = findViewById(R.id.nfy)
+        notifBox = findViewById(R.id.n_select)
+
+        notifBox.setOnCheckedChangeListener { _, isChecked ->
+            // for selection function
+            GlobalVar.notifBoxFlag = isChecked
+        }
 
         resetA.setOnClickListener {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
@@ -55,6 +63,9 @@ class MainActivity : ComponentActivity() {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
                     Listsqre.deleteSelNodes()
                     updateDb(this)
+                    if(GlobalVar.notifBoxFlag) {
+                        clearNotiDb(this)
+                    } else { /* do nothing */ }
                 } else {
                     if(rstTxt.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
@@ -100,7 +111,7 @@ class MainActivity : ComponentActivity() {
             hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Set Daily: (" + upcomingNoti(this) + ")")
+            builder.setTitle("Set Daily:")
             builder.setView(notiView)
             builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val hourTxt = hourNoti.text.toString()
@@ -137,8 +148,14 @@ class MainActivity : ComponentActivity() {
     private fun refreshView() {
         Listsqre.clrSelList()
         ListOfListsqre.clrSelList()
+        updateNotificationTxt()
         removeAllCardViews()
         showCardViews()
+    }
+
+    private fun updateNotificationTxt() {
+        notiText = findViewById(R.id.n_info)
+        notiText.text = upcomingNoti(this)
     }
 
     private fun showCardViews() {
