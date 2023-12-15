@@ -15,9 +15,11 @@ import androidx.core.app.NotificationManagerCompat
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        createNotificationChannel(context)
-        createNotification(context, readNotiDb(context))
-        scheduleAlarm(context, readNotiDb(context)) // recurring daily
+        if(!isNotiDbEmpty(context)) {
+            createNotificationChannel(context)
+            createNotification(context, readNotiDb(context))
+            scheduleAlarm(context, readNotiDb(context)) // recurring daily
+        } else { /* do nothing */ }
     }
 }
 
@@ -48,6 +50,13 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
         // ActivityCompat.requestPermissions()
     }
 }
+
+/* --- deprecated for now, replaced by checking empty Db ---
+fun deleteNotification(context: Context, notificationId: Int) {
+    val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    nManager.cancel(notificationId)
+}
+*/
 
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
