@@ -91,17 +91,18 @@ fun readNotiDb(context: Context): ListsqreNotiData {
 }
 
 fun upcomingNoti(context: Context): String {
-    var rtnStr = "No Pending Notification"
+    var rtnStr = "Next Notification: "
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.readableDatabase
     val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
-        if (moveToFirst()) {
-            rtnStr = ""
+        rtnStr += if (moveToFirst()) {
             val h = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_03))
             val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
-            rtnStr = String.format("Next Notification @ %02d:%02d", h, m)
-        } else { /* do nothing */ }
+            String.format("~ %02d:%02d", h, m)
+        } else {
+            String.format("None Set")
+        }
     }
     cursor.close()
     db.close()
@@ -118,6 +119,7 @@ fun isNotiDbEmpty(context: Context): Boolean {
         } else { /* do nothing */ }
     }
     cursor.close()
+    db.close()
     return false // not empty Db
 }
 
