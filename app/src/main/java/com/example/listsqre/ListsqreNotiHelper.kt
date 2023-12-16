@@ -51,13 +51,6 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
     }
 }
 
-/* --- deprecated for now, replaced by checking empty Db ---
-fun deleteNotification(context: Context, notificationId: Int) {
-    val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    nManager.cancel(notificationId)
-}
-*/
-
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val calendar = Calendar.getInstance().apply {
@@ -84,7 +77,7 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
                 pendingIntent
             )
         } else {
-            alarmManager.setExact(
+            alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 pendingIntent
@@ -95,3 +88,10 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
         // do nothing for now
     }
 }
+
+/* --- deprecated for now, replaced by checking empty Db ---
+fun deleteNotification(context: Context, notificationId: Int) {
+    val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    nManager.cancel(notificationId)
+}
+*/
