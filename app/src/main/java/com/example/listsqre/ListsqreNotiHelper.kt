@@ -89,7 +89,7 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     }
 }
 
-/* --- deprecated for now, replaced by checking empty Db ---
+/* --- deprecated, replaced by checking empty Db ---
 fun deleteNotification(context: Context, notificationId: Int) {
     val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     nManager.cancel(notificationId)

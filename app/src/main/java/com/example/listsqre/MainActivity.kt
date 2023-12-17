@@ -64,6 +64,7 @@ class MainActivity : ComponentActivity() {
                     Listsqre.deleteSelNodes()
                     updateDb(this)
                     if(GlobalVar.notifBoxFlag) {
+                        notifBox.isChecked = false
                         clearNotiDb(this)
                     } else { /* do nothing */ }
                 } else {
@@ -82,6 +83,7 @@ class MainActivity : ComponentActivity() {
         create.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
             createTxt = dialogView.findViewById(R.id.dialogTxt)
+            createTxt.hint = Listsqre.hintStr()
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Create List:")
             builder.setView(dialogView)

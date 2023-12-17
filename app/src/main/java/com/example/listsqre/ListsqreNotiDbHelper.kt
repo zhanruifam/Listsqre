@@ -96,7 +96,7 @@ fun upcomingNoti(context: Context): String {
     val db = dbHelper.readableDatabase
     val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
-        rtnStr += if (moveToFirst()) {
+        rtnStr += if(moveToFirst()) {
             val h = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_03))
             val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
             String.format("~ %02d:%02d", h, m)

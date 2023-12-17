@@ -67,6 +67,7 @@ class ListActivity : ComponentActivity() {
                     ListOfListsqre.deleteSelNodes()
                     updateTextFile(this, fileName)
                     if(GlobalVar.notifBoxFlag) {
+                        notifBox.isChecked = false
                         clearNotiDb(this)
                     } else { /* do nothing */ }
                 } else {

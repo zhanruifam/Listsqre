@@ -89,7 +89,7 @@ fun updateTextFile(context: Context, fileName: String?) {
     }
 }
 
-/* --- obsolete ---
+/* --- obsolete, no use case ---
 fun clearTextFile(context: Context, fileName: String?) {
     val file = fileName?.let { File(context.filesDir, it) }
     try {
