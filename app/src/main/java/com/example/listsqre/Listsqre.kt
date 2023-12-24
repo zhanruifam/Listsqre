@@ -81,7 +81,7 @@ class Listsqre {
             var hintStr = if(mutableList.isNotEmpty()) {
                 "Please avoid: \n"
             } else {
-                R.string.description.toString()
+                "Type something:"
             }
             for(obj in mutableList) {
                 hintStr += "\"" + obj.getListname() + "\""
