@@ -101,7 +101,7 @@ fun upcomingNoti(context: Context): String {
             val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
             String.format("~ %02d:%02d", h, m)
         } else {
-            String.format("None Set")
+            String.format("None")
         }
     }
     cursor.close()
