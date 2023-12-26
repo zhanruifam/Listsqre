@@ -84,8 +84,7 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
             )
         }
     } catch (e: SecurityException) {
-        // Handle SecurityException here
-        // do nothing for now
+        // do nothing
     }
 }
 

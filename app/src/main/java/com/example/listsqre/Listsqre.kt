@@ -77,20 +77,6 @@ class Listsqre {
             }
             return descr
         }
-        fun hintStr(): String {
-            var hintStr = if(mutableList.isNotEmpty()) {
-                "Please avoid: \n"
-            } else {
-                "Type something:"
-            }
-            for(obj in mutableList) {
-                hintStr += "\"" + obj.getListname() + "\""
-                if(obj != mutableList.last()) {
-                    hintStr += "\n"
-                } else { /* do nothing */ }
-            }
-            return hintStr
-        }
         private fun reassignTaskID() {
             for((iterator, obj) in getEntireList().withIndex()) {
                 obj.setId(iterator)
@@ -98,3 +84,20 @@ class Listsqre {
         }
     }
 }
+
+/* --- not used, unique filename generator to be implemented ---
+fun hintStr(): String {
+    var hintStr = if(Listsqre.mutableList.isNotEmpty()) {
+        "Please avoid: \n"
+    } else {
+        "Type something:"
+    }
+    for(obj in Listsqre.mutableList) {
+        hintStr += "\"" + obj.getListname() + "\""
+        if(obj != Listsqre.mutableList.last()) {
+            hintStr += "\n"
+        } else { /* do nothing */ }
+    }
+    return hintStr
+}
+*/

@@ -8,8 +8,11 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.content.pm.PackageManager
 import androidx.cardview.widget.CardView
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
+import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
@@ -40,6 +43,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homepage)
+        permissionReq()
 
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
@@ -83,7 +87,6 @@ class MainActivity : ComponentActivity() {
         create.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
             createTxt = dialogView.findViewById(R.id.dialogTxt)
-            createTxt.hint = Listsqre.hintStr()
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Create List:")
             builder.setView(dialogView)
@@ -158,6 +161,20 @@ class MainActivity : ComponentActivity() {
     private fun updateNotificationTxt() {
         notiText = findViewById(R.id.n_info)
         notiText.text = upcomingNoti(this)
+    }
+
+    private fun permissionReq() {
+        val permission = "android.permission.POST_NOTIFICATIONS"
+        val permissionState = ContextCompat.checkSelfPermission(this, permission)
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (!isGranted) {
+                    GlobalVar.errDialog(this, GlobalVar.ErrorType.PERMISSION_DENIED)
+                } else { /* do nothing */ }
+            }
+        if (permissionState != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(permission)
+        } else { /* do nothing */ }
     }
 
     private fun showCardViews() {
