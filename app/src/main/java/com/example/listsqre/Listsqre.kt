@@ -61,7 +61,13 @@ class Listsqre {
             selectedList.clear()
         }
         fun createNotiTitle(): String {
-            return "Reminder for the following list(s):"
+            var title = ""
+            if(selectedList.isEmpty()) {
+                title += "Reminder to check Listsqre"
+            } else {
+                title += "Reminder for the following list(s):"
+            }
+            return title
         }
         fun createNotiDescr(): String {
             var descr = ""

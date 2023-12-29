@@ -35,8 +35,9 @@ private fun createNotificationChannel(context: Context) {
 }
 
 private fun createNotification(context: Context, data: ListsqreNotiData) {
-    if(ContextCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS")
-        == PackageManager.PERMISSION_GRANTED) {
+    val permission = "android.permission.POST_NOTIFICATIONS"
+    val permissionState = ContextCompat.checkSelfPermission(context, permission)
+    if(permissionState == PackageManager.PERMISSION_GRANTED) {
         val builder =
             NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
             setSmallIcon(R.drawable.opt_button)

@@ -91,7 +91,7 @@ fun readNotiDb(context: Context): ListsqreNotiData {
 }
 
 fun upcomingNoti(context: Context): String {
-    var rtnStr = "Next Notification: "
+    var rtnStr = "Set daily reminder here\nNext reminder: "
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.readableDatabase
     val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)

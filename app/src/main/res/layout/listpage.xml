@@ -105,21 +105,6 @@
             android:textColor="#254252"
             android:textSize="18sp" />
 
-        <Space
-            android:layout_width="9dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/nfy"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#eab56f"
-            android:text="@string/notify"
-            android:textAllCaps="true"
-            android:textColor="#254252"
-            android:textSize="18sp" />
-
     </LinearLayout>
 
     <Space

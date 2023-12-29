@@ -10,8 +10,8 @@ object GlobalVar {
         DUPLICATE_INPUT     (901, "Duplicate input provided"),
         EMPTY_INPUT         (902, "Empty input provided"),
         INVALID_TIME        (904, "Invalid 24h time provided"),
-        PERMISSION_DENIED   (905, "Please enable notification"),
-        UNKNOWN_ERROR       (999, "Unknown error"),
+        PERMISSION_DENIED   (905, "Please enable notification\n" +
+                                  "Settings > Notification > Listsqre"),
     }
 
     const val EOF: Int = -1

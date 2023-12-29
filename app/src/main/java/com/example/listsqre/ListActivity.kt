@@ -14,6 +14,7 @@ import androidx.activity.ComponentActivity
 
 class ListActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
+    private lateinit var notifCard: CardView
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
     private lateinit var resetTxt: TextView
@@ -28,7 +29,6 @@ class ListActivity : ComponentActivity() {
     private lateinit var options: Button
     private lateinit var resetA: Button
     private lateinit var create: Button
-    private lateinit var notify: Button
 
     override fun onStart() {
         super.onStart()
@@ -45,14 +45,49 @@ class ListActivity : ComponentActivity() {
         fileName = intent.getStringExtra("LISTNAME").toString()
         dispName = intent.getStringExtra("DISPNAME").toString()
 
+        notifCard = findViewById(R.id.repCard)
+        notifBox = findViewById(R.id.n_select)
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
-        notify = findViewById(R.id.nfy)
-        notifBox = findViewById(R.id.n_select)
 
         notifBox.setOnCheckedChangeListener { _, isChecked ->
             // for selection function
             GlobalVar.notifBoxFlag = isChecked
+        }
+
+        notifCard.setOnClickListener {
+            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
+            hourNoti = notiView.findViewById(R.id.hour)
+            minuNoti = notiView.findViewById(R.id.min)
+            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Remind Selected?")
+            builder.setView(notiView)
+            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
+                val hourTxt = hourNoti.text.toString()
+                val minTxt = minuNoti.text.toString()
+                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
+                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
+                        clearNotiDb(this)
+                        feedIntoNotiDb(
+                            this,
+                            0, // first entry
+                            ListOfListsqre.createNotiTitle(),
+                            ListOfListsqre.createNotiDescr(),
+                            hourTxt.toInt(),
+                            minTxt.toInt())
+                        scheduleAlarm(this, readNotiDb(this))
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
+                    }
+                } else {
+                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
         }
 
         resetA.setOnClickListener {
@@ -94,41 +129,6 @@ class ListActivity : ComponentActivity() {
                 if(elemName.isNotEmpty()) {
                     ListOfListsqre.addNode(elemName)
                     updateTextFile(this, fileName)
-                } else {
-                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                }
-                refreshView()
-                dialog.dismiss()
-            }
-            builder.create().show()
-        }
-
-        notify.setOnClickListener {
-            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
-            hourNoti = notiView.findViewById(R.id.hour)
-            minuNoti = notiView.findViewById(R.id.min)
-            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Set Daily:")
-            builder.setView(notiView)
-            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
-                val hourTxt = hourNoti.text.toString()
-                val minTxt = minuNoti.text.toString()
-                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
-                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
-                        clearNotiDb(this)
-                        feedIntoNotiDb(
-                            this,
-                            0, // first entry
-                            ListOfListsqre.createNotiTitle(),
-                            ListOfListsqre.createNotiDescr(),
-                            hourTxt.toInt(),
-                            minTxt.toInt())
-                        scheduleAlarm(this, readNotiDb(this))
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
-                    }
                 } else {
                     GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
                 }
