@@ -40,7 +40,7 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
     if(permissionState == PackageManager.PERMISSION_GRANTED) {
         val builder =
             NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
-            setSmallIcon(R.drawable.opt_button)
+            setSmallIcon(R.drawable.notification_ic)
             setContentTitle(data.t)
             setContentText(data.d)
             priority = NotificationCompat.PRIORITY_HIGH

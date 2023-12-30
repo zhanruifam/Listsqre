@@ -10,7 +10,7 @@ object GlobalVar {
         DUPLICATE_INPUT     (901, "Duplicate input provided"),
         EMPTY_INPUT         (902, "Empty input provided"),
         INVALID_TIME        (904, "Invalid 24h time provided"),
-        PERMISSION_DENIED   (905, "Please enable notification\n" +
+        PERMISSION_DENIED   (905, "Please enable notification setting\n" +
                                   "Settings > Notification > Listsqre"),
     }
 

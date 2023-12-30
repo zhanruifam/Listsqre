@@ -62,7 +62,7 @@ class ListActivity : ComponentActivity() {
             hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Remind Selected?")
+            builder.setTitle("Set reminder for selected?")
             builder.setView(notiView)
             builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val hourTxt = hourNoti.text.toString()
@@ -94,7 +94,7 @@ class ListActivity : ComponentActivity() {
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete Selected?")
+            builder.setTitle("Delete selected?")
             builder.setView(rstdialogView)
             builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val rstTxt = resetTxt.text.toString()
@@ -122,7 +122,7 @@ class ListActivity : ComponentActivity() {
             val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
             createTxt = dialogView.findViewById(R.id.dialogTxt)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Add Onto List:")
+            builder.setTitle("Add onto list:")
             builder.setView(dialogView)
             builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val elemName = createTxt.text.toString()
@@ -188,7 +188,7 @@ class ListActivity : ComponentActivity() {
                 dialogTxt = dialogView.findViewById(R.id.dialogTxt)
                 dialogTxt.text = obj.getElemname()
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Make Changes:")
+                builder.setTitle("Make changes:")
                 builder.setView(dialogView)
                 builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                     val elemName = dialogTxt.text.toString()

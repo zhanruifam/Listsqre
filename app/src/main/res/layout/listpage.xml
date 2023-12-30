@@ -84,11 +84,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#eab56f"
             android:text="@string/reset"
-            android:textAllCaps="true"
+            android:textSize="18sp"
             android:textColor="#254252"
-            android:textSize="18sp" />
+            android:background="@drawable/default_btn_background" />
 
         <Space
             android:layout_width="9dp"
@@ -99,11 +98,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#eab56f"
             android:text="@string/create"
-            android:textAllCaps="true"
+            android:textSize="18sp"
             android:textColor="#254252"
-            android:textSize="18sp" />
+            android:background="@drawable/default_btn_background" />
 
     </LinearLayout>
 

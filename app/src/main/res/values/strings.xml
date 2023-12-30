@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="reset">delete</string>
-    <string name="create">create</string>
+    <string name="reset">DELETE</string>
+    <string name="create">CREATE</string>
     <string name="notify">notify</string>
     <string name="proceed">PROCEED</string>
     <string name="hour">Hour(0–23):</string>
