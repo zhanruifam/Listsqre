@@ -173,6 +173,9 @@ class ListActivity : ComponentActivity() {
         for(obj in ListOfListsqre.getEntireList()) {
             val card = layoutInflater.inflate(R.layout.cardview, CardView(this))
             card.setOnClickListener {
+                if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                    return@setOnClickListener
+                } else { lastClickTime = System.currentTimeMillis() }
                 if(GlobalVar.isLinkValid(obj.getElemname())) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(obj.getElemname()))
                     startActivity(intent)

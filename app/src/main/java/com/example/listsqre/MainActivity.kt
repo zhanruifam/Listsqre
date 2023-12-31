@@ -193,6 +193,9 @@ class MainActivity : ComponentActivity() {
         for(obj in Listsqre.getEntireList()) {
             val card = layoutInflater.inflate(R.layout.cardview, CardView(this))
             card.setOnClickListener {
+                if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                    return@setOnClickListener
+                } else { lastClickTime = System.currentTimeMillis() }
                 val intent = Intent(this, ListActivity::class.java)
                 intent.putExtra("LISTNAME", obj.getListname())
                 intent.putExtra("DISPNAME", obj.getDisplayname())
