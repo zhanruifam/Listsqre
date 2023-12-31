@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <!-- Solid color for the square (change the color as needed) -->
-    <solid android:color="#eab56f" />
+    <solid android:color="#dd0000" />
 
     <!-- Size of the square -->
     <size

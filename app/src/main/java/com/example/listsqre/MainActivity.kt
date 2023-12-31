@@ -30,6 +30,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var resetA: Button
     private lateinit var create: Button
 
+    private var lastClickTime: Long = 0
+    private var notifBoxFlag: Boolean = false
+
     override fun onStart() {
         super.onStart()
         title = "Listsqre"
@@ -52,10 +55,13 @@ class MainActivity : ComponentActivity() {
 
         notifBox.setOnCheckedChangeListener { _, isChecked ->
             // for selection function
-            GlobalVar.notifBoxFlag = isChecked
+            notifBoxFlag = isChecked
         }
 
         notifCard.setOnClickListener {
+            if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                return@setOnClickListener
+            } else { lastClickTime = System.currentTimeMillis() }
             val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
             hourNoti = notiView.findViewById(R.id.hour)
             minuNoti = notiView.findViewById(R.id.min)
@@ -91,6 +97,9 @@ class MainActivity : ComponentActivity() {
         }
 
         resetA.setOnClickListener {
+            if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                return@setOnClickListener
+            } else { lastClickTime = System.currentTimeMillis() }
             val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
             resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
             val builder = AlertDialog.Builder(this)
@@ -102,7 +111,7 @@ class MainActivity : ComponentActivity() {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
                     Listsqre.deleteSelNodes()
                     updateDb(this)
-                    if(GlobalVar.notifBoxFlag) {
+                    if(notifBoxFlag) {
                         notifBox.isChecked = false
                         clearNotiDb(this)
                     } else { /* do nothing */ }
@@ -120,6 +129,9 @@ class MainActivity : ComponentActivity() {
         }
 
         create.setOnClickListener {
+            if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                return@setOnClickListener
+            } else { lastClickTime = System.currentTimeMillis() }
             val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
             createTxt = dialogView.findViewById(R.id.dialogTxt)
             val builder = AlertDialog.Builder(this)
@@ -196,6 +208,9 @@ class MainActivity : ComponentActivity() {
             }
             options = card.findViewById(R.id.options)
             options.setOnClickListener {
+                if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                    return@setOnClickListener
+                } else { lastClickTime = System.currentTimeMillis() }
                 val dialogView = layoutInflater.inflate(R.layout.dialogview, FrameLayout(this))
                 dialogTxt = dialogView.findViewById(R.id.dialogTxt)
                 dialogTxt.text = obj.getDisplayname()

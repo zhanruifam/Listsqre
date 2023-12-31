@@ -58,12 +58,12 @@ fun readFromFile(context: Context, fileName: String?) {
         var currentChar: Int
         var currentPart = StringBuilder()
         while (reader.read().also { currentChar = it } != GlobalVar.EOF) {
-            val char = currentChar.toChar()
-            if (char == GlobalVar.DELIMITER) {
+            val dChar = currentChar.toChar()
+            if (dChar == GlobalVar.DELIMITER) {
                 ListOfListsqre.addNode(currentPart.toString())
                 currentPart = StringBuilder()
             } else {
-                currentPart.append(char)
+                currentPart.append(dChar)
             }
         }
         reader.close()
