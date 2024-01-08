@@ -30,6 +30,10 @@ class Listsqre {
             mutableList.removeAt(id)
             reassignTaskID()
         }
+        fun deleteAllNodes() { // prevent double creation when start new activity
+            idGen = 0
+            mutableList.clear()
+        }
         fun addNode(listname: String, displayname: String) {
             mutableList.add(Node(idGen++, listname))
             getRecent().setDisplayname(displayname)
@@ -62,10 +66,10 @@ class Listsqre {
         }
         fun createNotiTitle(): String {
             var title = ""
-            if(selectedList.isEmpty()) {
-                title += "Reminder to check Listsqre"
+            title += if(selectedList.isEmpty()) {
+                "Check Listsqre"
             } else {
-                title += "Reminder for the following list(s):"
+                "Check list(s):"
             }
             return title
         }

@@ -1,0 +1,32 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="35dp"
+    android:height="35dp"
+    android:viewportWidth="35.0"
+    android:viewportHeight="35.0">
+
+    <!-- Right Triangle -->
+    <path
+        android:fillColor="#eab56f"
+        android:pathData="M1,34 L1,19 L16,34 Z" />
+
+    <!-- Diagonal Rectangle -->
+    <path
+        android:fillColor="#eab56f"
+        android:pathData="M5,21 L2,18 L18,2 L21,5 Z" />
+
+    <!-- Diagonal Rectangle -->
+    <path
+        android:fillColor="#eab56f"
+        android:pathData="M6,22 L13,29 L29,13 L22,6 Z" />
+
+    <!-- Diagonal Rectangle -->
+    <path
+        android:fillColor="#eab56f"
+        android:pathData="M17,33 L14,30 L30,14 L33,17 Z" />
+
+    <!-- Polygon -->
+    <path
+        android:fillColor="#eab56f"
+        android:pathData="M26,1 L34,9 L34,16 L19,1 Z" />
+
+</vector>

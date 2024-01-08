@@ -24,22 +24,19 @@ class MainActivity : ComponentActivity() {
     private lateinit var minuNoti: TextView
     private lateinit var cardText: TextView
     private lateinit var notiText: TextView
-    private lateinit var notifBox: CheckBox
     private lateinit var checkBox: CheckBox
+    private lateinit var notiList: Button
     private lateinit var options: Button
     private lateinit var resetA: Button
     private lateinit var create: Button
 
     private var lastClickTime: Long = 0
-    private var notifBoxFlag: Boolean = false
 
     override fun onStart() {
         super.onStart()
         title = "Listsqre"
-        if(!UserAuthActivity.enteredOnce) {
-            UserAuthActivity.enteredOnce = true
-            readFromDb(this)
-        }
+        Listsqre.deleteAllNodes()
+        readFromDb(this)
         refreshView()
     }
 
@@ -49,14 +46,9 @@ class MainActivity : ComponentActivity() {
         permissionReq()
 
         notifCard = findViewById(R.id.repCard)
-        notifBox = findViewById(R.id.n_select)
+        notiList = findViewById(R.id.n_list)
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
-
-        notifBox.setOnCheckedChangeListener { _, isChecked ->
-            // for selection function
-            notifBoxFlag = isChecked
-        }
 
         notifCard.setOnClickListener {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
@@ -75,15 +67,13 @@ class MainActivity : ComponentActivity() {
                 val minTxt = minuNoti.text.toString()
                 if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
                     if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
-                        clearNotiDb(this)
-                        feedIntoNotiDb(
-                            this,
-                            0, // first entry
+                        NotiOfListsqre.addNode(
                             Listsqre.createNotiTitle(),
                             Listsqre.createNotiDescr(),
                             hourTxt.toInt(),
                             minTxt.toInt())
-                        scheduleAlarm(this, readNotiDb(this))
+                        updateNotiDb(this)
+                        scheduleAlarm(this, readNotiFirstEntry(this))
                     } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
                     }
@@ -94,6 +84,14 @@ class MainActivity : ComponentActivity() {
                 dialog.dismiss()
             }
             builder.create().show()
+        }
+
+        notiList.setOnClickListener {
+            if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                return@setOnClickListener
+            } else { lastClickTime = System.currentTimeMillis() }
+            val intent = Intent(this, NotiActivity::class.java)
+            startActivity(intent)
         }
 
         resetA.setOnClickListener {
@@ -111,10 +109,6 @@ class MainActivity : ComponentActivity() {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
                     Listsqre.deleteSelNodes()
                     updateDb(this)
-                    if(notifBoxFlag) {
-                        notifBox.isChecked = false
-                        clearNotiDb(this)
-                    } else { /* do nothing */ }
                 } else {
                     if(rstTxt.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)

@@ -29,6 +29,10 @@ class ListOfListsqre {
             mutableList.removeAt(id)
             reassignTaskID()
         }
+        fun deleteAllNodes() { // prevent double creation when start new activity
+            idGen = 0
+            mutableList.clear()
+        }
         fun addNode(listname: String) {
             mutableList.add(Node(idGen++, listname))
         }
@@ -46,12 +50,6 @@ class ListOfListsqre {
         fun getEntireSelList(): List<Node> {
             return selectedList.toList()
         }
-        fun deleteAllNodes() { // obsolete
-            idGen = 0
-            while(getEntireList().isNotEmpty()) {
-                mutableList.removeAt(0)
-            }
-        }
         fun deleteSelNodes() {
             for(node in selectedList) {
                 deleteNode(node.getId())
@@ -63,10 +61,10 @@ class ListOfListsqre {
         }
         fun createNotiTitle(): String {
             var title = ""
-            if(selectedList.isEmpty()) {
-                title += "Reminder to check Listsqre"
+            title += if(selectedList.isEmpty()) {
+                "Check Listsqre"
             } else {
-                title += "Reminder for the following item(s):"
+                "Check item(s):"
             }
             return title
         }

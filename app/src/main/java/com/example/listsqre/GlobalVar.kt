@@ -19,7 +19,6 @@ object GlobalVar {
     const val clickThreshold: Int = 1000
 
     const val DELIMITER: Char = '|'
-    const val UAText: String = "348934"
     const val cfmText: String = "confirm"
 
     fun isLinkValid(urlString: String): Boolean {
