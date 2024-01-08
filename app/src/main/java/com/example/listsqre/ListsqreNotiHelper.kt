@@ -17,8 +17,9 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if(!isNotiDbEmpty(context)) {
             createNotificationChannel(context)
-            createNotification(context, readNotiDb(context))
-            scheduleAlarm(context, readNotiDb(context)) // recurring daily
+            createNotification(context, readNotiFirstEntry(context))
+            autoUpdateNotiDb(context)
+            scheduleAlarm(context, readNotiFirstEntry(context))
         } else { /* do nothing */ }
     }
 }
@@ -50,6 +51,13 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
     } else {
         // ActivityCompat.requestPermissions()
     }
+}
+
+fun autoUpdateNotiDb(context: Context) {
+    // to shift first entry to last in Db
+    readFromNotiDb(context)
+    updateNotiDb(context)
+    NotiOfListsqre.deleteAllNodes()
 }
 
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {

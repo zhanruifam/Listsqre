@@ -71,18 +71,48 @@ fun feedIntoNotiDb(context: Context, id: Int, title: String, descr: String, hr: 
     db.close()
 }
 
-fun readNotiDb(context: Context): ListsqreNotiData {
+fun updateNotiDb(context: Context) {
+    val dbHelper = ListsqreNotiDbHelper(context)
+    val db = dbHelper.writableDatabase
+    db.delete(NotiTableTemplate.TABLE_NAME, null, null)
+    for(obj in NotiOfListsqre.getEntireList()) {
+        feedIntoNotiDb(context, obj.getId(), obj.getT(), obj.getD(), obj.getH(), obj.getM())
+    }
+    db.close()
+}
+
+fun readFromNotiDb(context: Context) { // for displaying cardview
+    val dbHelper = ListsqreNotiDbHelper(context)
+    val db = dbHelper.readableDatabase
+    val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
+    with(cursor) {
+        while(moveToNext()) {
+            val t = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME))
+            val d = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_02))
+            val h = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_03))
+            val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
+            NotiOfListsqre.addNode(t, d, h, m)
+        }
+    }
+    cursor.close()
+    db.close()
+}
+
+fun readNotiFirstEntry(context: Context): ListsqreNotiData { // update this again
     lateinit var data: ListsqreNotiData
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.readableDatabase
     val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
-        if (moveToFirst()) {
+        if(moveToFirst()) {
             val t = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME))
             val d = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_02))
             val h = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_03))
             val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
             data = ListsqreNotiData(t, d, h, m)
+        } else {
+            // empty Db
+            data = ListsqreNotiData("", "", 0, 0)
         }
     }
     cursor.close()
@@ -123,9 +153,11 @@ fun isNotiDbEmpty(context: Context): Boolean {
     return false // not empty Db
 }
 
+/* --- obsolete ---
 fun clearNotiDb(context: Context) {
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.writableDatabase
     db.delete(NotiTableTemplate.TABLE_NAME, null, null)
     db.close()
 }
+*/
