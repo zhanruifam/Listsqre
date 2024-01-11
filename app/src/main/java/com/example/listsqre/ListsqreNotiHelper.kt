@@ -55,9 +55,10 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
 
 fun autoUpdateNotiDb(context: Context) {
     // to shift first entry to last in Db
+    NotiOfListsqre.deleteAllNodes() // to clear list before update
     readFromNotiDb(context)
     updateNotiDb(context)
-    NotiOfListsqre.deleteAllNodes()
+    NotiOfListsqre.deleteAllNodes() // to clear list after update
 }
 
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {

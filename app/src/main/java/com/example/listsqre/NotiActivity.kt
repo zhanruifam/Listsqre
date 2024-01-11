@@ -20,8 +20,6 @@ class NotiActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         title = "Notification List"
-        NotiOfListsqre.deleteAllNodes()
-        readFromNotiDb(this)
         refreshView()
     }
 

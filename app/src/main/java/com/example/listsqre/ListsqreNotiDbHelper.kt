@@ -74,10 +74,14 @@ fun feedIntoNotiDb(context: Context, id: Int, title: String, descr: String, hr: 
 fun updateNotiDb(context: Context) {
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.writableDatabase
-    db.delete(NotiTableTemplate.TABLE_NAME, null, null)
-    for(obj in NotiOfListsqre.getEntireList()) {
-        feedIntoNotiDb(context, obj.getId(), obj.getT(), obj.getD(), obj.getH(), obj.getM())
-    }
+    if(NotiOfListsqre.getEntireList().isNotEmpty() && !NotiOfListsqre.empty) {
+        db.delete(NotiTableTemplate.TABLE_NAME, null, null)
+        for(obj in NotiOfListsqre.getEntireList()) {
+            feedIntoNotiDb(context, obj.getId(), obj.getT(), obj.getD(), obj.getH(), obj.getM())
+        }
+    } else if(NotiOfListsqre.getEntireList().isEmpty() && NotiOfListsqre.empty) {
+        db.delete(NotiTableTemplate.TABLE_NAME, null, null)
+    } else { /* do nothing */ }
     db.close()
 }
 
@@ -98,7 +102,7 @@ fun readFromNotiDb(context: Context) { // for displaying cardview
     db.close()
 }
 
-fun readNotiFirstEntry(context: Context): ListsqreNotiData { // update this again
+fun readNotiFirstEntry(context: Context): ListsqreNotiData { // get first entry in db
     lateinit var data: ListsqreNotiData
     val dbHelper = ListsqreNotiDbHelper(context)
     val db = dbHelper.readableDatabase

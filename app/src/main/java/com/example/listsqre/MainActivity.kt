@@ -37,6 +37,8 @@ class MainActivity : ComponentActivity() {
         title = "Listsqre"
         Listsqre.deleteAllNodes()
         readFromDb(this)
+        NotiOfListsqre.deleteAllNodes()     // clear list before init happens
+        readFromNotiDb(this)                // notification init happens here
         refreshView()
     }
 
