@@ -33,23 +33,30 @@ class NotiOfListsqre {
     }
 
     // CRUD operations and other backend processes
-    companion object {
+    companion object { // note: companion object contents are static
         private var idGen: Int = 0
         private var mutableList = mutableListOf<Node>()
+        var empty: Boolean = true
         fun deleteNode(id: Int) {
             idGen--
             mutableList.removeAt(id)
             sortWithDay(mutableList)
             reassignTaskID()
+            if(mutableList.isEmpty()) {
+                idGen = 0
+                empty = true
+            } else { /* do nothing */ }
         }
         fun deleteAllNodes() { // prevent double creation when start new activity
             idGen = 0
             mutableList.clear()
+            empty = true
         }
         fun addNode(t: String, d: String, h: Int, m: Int) {
             mutableList.add(Node(idGen++, t, d, h, m))
             sortWithDay(mutableList)
             reassignTaskID()
+            empty = false
         }
         fun getEntireList(): List<Node> {
             return mutableList.toList()

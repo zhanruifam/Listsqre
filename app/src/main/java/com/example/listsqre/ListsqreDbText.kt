@@ -75,15 +75,18 @@ fun readFromFile(context: Context, fileName: String?) {
 fun updateTextFile(context: Context, fileName: String?) {
     val file = fileName?.let { File(context.filesDir, it) }
     try {
-        if (file != null) {
-            if(file.exists()) {
+        if((file != null) && file.exists()) {
+            if(ListOfListsqre.getEntireList().isNotEmpty() && !ListOfListsqre.empty) {
                 val fileWriter = FileWriter(file, false)
                 fileWriter.close()
                 for(obj in ListOfListsqre.getEntireList()) {
                     storeDataToFile(context, fileName, obj.fileFormatted())
                 }
-            }
-        }
+            } else if(ListOfListsqre.getEntireList().isEmpty() && ListOfListsqre.empty) {
+                val fileWriter = FileWriter(file, false)
+                fileWriter.close()
+            } else { /* do nothing */ }
+        } else { /* do nothing */ }
     } catch (e: IOException) {
         e.printStackTrace()
     }

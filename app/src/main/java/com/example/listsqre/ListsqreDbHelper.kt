@@ -98,9 +98,13 @@ fun readFromDb(context: Context) {
 fun updateDb(context: Context) {
     val dbHelper = ListsqreDbHelper(context)
     val db = dbHelper.writableDatabase
-    db.delete(TableTemplate.TABLE_NAME, null, null)
-    for(obj in Listsqre.getEntireList()) {
-        feedIntoDb(context, obj.getId(), obj.getListname(), obj.getDisplayname())
-    }
+    if(Listsqre.getEntireList().isNotEmpty() && !Listsqre.empty) {
+        db.delete(TableTemplate.TABLE_NAME, null, null)
+        for(obj in Listsqre.getEntireList()) {
+            feedIntoDb(context, obj.getId(), obj.getListname(), obj.getDisplayname())
+        }
+    } else if(Listsqre.getEntireList().isEmpty() && Listsqre.empty) {
+        db.delete(TableTemplate.TABLE_NAME, null, null)
+    } else { /* do nothing */ }
     db.close()
 }
