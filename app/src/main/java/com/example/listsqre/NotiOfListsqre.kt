@@ -53,13 +53,23 @@ class NotiOfListsqre {
             empty = true
         }
         fun addNode(t: String, d: String, h: Int, m: Int) {
-            mutableList.add(Node(idGen++, t, d, h, m))
+            if(!duplicateNoti(h, m)) {
+                mutableList.add(Node(idGen++, t, d, h, m))
+            } else { /* do nothing */ }
             sortWithDay(mutableList)
             reassignTaskID()
             empty = false
         }
         fun getEntireList(): List<Node> {
             return mutableList.toList()
+        }
+        private fun duplicateNoti(h: Int, m: Int): Boolean {
+            for(obj in mutableList) {
+                if(h == obj.getH() && m == obj.getM()) {
+                    return true
+                } else { /* do nothing */ }
+            }
+            return false
         }
         private fun sortWithDay(list: List<Node>) {
             val currTime = Calendar.getInstance()
