@@ -34,15 +34,15 @@
                 android:textColor="#eab56f"
                 android:textSize="24sp" />
 
-            <Space
+            <!--Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" /-->
 
-            <Button
+            <!--Button
                 android:id="@+id/n_list"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/list_button_vector_img" />
+                android:background="@drawable/add_button_vector_img" /-->
 
         </LinearLayout>
 
@@ -84,10 +84,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/delete_btn_centered_bg" />
+        <!--
             android:text="@string/reset"
             android:textSize="18sp"
             android:textColor="#254252"
-            android:background="@drawable/default_btn_background" />
+            android:background="@drawable/default_btn_background" -->
 
         <Space
             android:layout_width="9dp"
@@ -98,10 +101,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/create_btn_centered_bg" />
+        <!--
             android:text="@string/create"
             android:textSize="18sp"
             android:textColor="#254252"
-            android:background="@drawable/default_btn_background" />
+            android:background="@drawable/default_btn_background" -->
 
     </LinearLayout>
 

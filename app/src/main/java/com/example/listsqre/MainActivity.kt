@@ -16,19 +16,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
-    private lateinit var notifCard: CardView
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
     private lateinit var resetTxt: TextView
-    private lateinit var hourNoti: TextView
-    private lateinit var minuNoti: TextView
     private lateinit var cardText: TextView
-    private lateinit var notiText: TextView
     private lateinit var checkBox: CheckBox
-    private lateinit var notiList: Button
     private lateinit var options: Button
     private lateinit var resetA: Button
     private lateinit var create: Button
+
+    /* --- for widget feature --- */
+    private lateinit var wgetCard: CardView
+    private lateinit var wgetList: Button
 
     private var lastClickTime: Long = 0
 
@@ -37,8 +36,6 @@ class MainActivity : ComponentActivity() {
         title = "Listsqre"
         Listsqre.deleteAllNodes()
         readFromDb(this)
-        NotiOfListsqre.deleteAllNodes()     // clear list before init happens
-        readFromNotiDb(this)                // notification init happens here
         refreshView()
     }
 
@@ -47,54 +44,26 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.homepage)
         permissionReq()
 
-        notifCard = findViewById(R.id.repCard)
-        notiList = findViewById(R.id.n_list)
+        wgetCard = findViewById(R.id.repCard)
+        // wgetList = findViewById(R.id.n_list) TODO: widget functionality
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
 
-        notifCard.setOnClickListener {
+        wgetCard.setOnClickListener {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
-            hourNoti = notiView.findViewById(R.id.hour)
-            minuNoti = notiView.findViewById(R.id.min)
-            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Set reminder for selected?")
-            builder.setView(notiView)
-            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
-                val hourTxt = hourNoti.text.toString()
-                val minTxt = minuNoti.text.toString()
-                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
-                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
-                        NotiOfListsqre.addNode(
-                            Listsqre.createNotiTitle(),
-                            Listsqre.createNotiDescr(),
-                            hourTxt.toInt(),
-                            minTxt.toInt())
-                        updateNotiDb(this)
-                        scheduleAlarm(this, readNotiFirstEntry(this))
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
-                    }
-                } else {
-                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                }
-                refreshView()
-                dialog.dismiss()
-            }
-            builder.create().show()
+            // something else
         }
 
-        notiList.setOnClickListener {
+        /*  TODO: widget functionality
+        wgetList.setOnClickListener {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            val intent = Intent(this, NotiActivity::class.java)
-            startActivity(intent)
+            // something else
         }
+        */
 
         resetA.setOnClickListener {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
@@ -161,14 +130,8 @@ class MainActivity : ComponentActivity() {
     private fun refreshView() {
         Listsqre.clrSelList()
         ListOfListsqre.clrSelList()
-        updateNotificationTxt()
         removeAllCardViews()
         showCardViews()
-    }
-
-    private fun updateNotificationTxt() {
-        notiText = findViewById(R.id.n_info)
-        notiText.text = upcomingNoti(this)
     }
 
     private fun permissionReq() {
