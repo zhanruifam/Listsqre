@@ -30,19 +30,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#40eab56f"
                 android:textColor="#eab56f"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:text="@string/widget" />
 
-            <!--Space
+            <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" /-->
+                android:layout_height="match_parent" />
 
-            <!--Button
+            <Button
                 android:id="@+id/n_list"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/add_button_vector_img" /-->
+                android:background="@drawable/list_button_vector_img" />
 
         </LinearLayout>
 

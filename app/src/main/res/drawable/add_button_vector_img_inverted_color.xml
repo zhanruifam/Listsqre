@@ -6,12 +6,12 @@
 
     <!-- First line -->
     <path
-        android:strokeWidth="11"
+        android:strokeWidth="5"
         android:strokeColor="#254252" android:pathData="M1,17.5 34,17.5" />
 
     <!-- First line -->
     <path
-        android:strokeWidth="11"
+        android:strokeWidth="5"
         android:strokeColor="#254252" android:pathData="M17.5,1 17.5 ,34" />
 
 </vector>

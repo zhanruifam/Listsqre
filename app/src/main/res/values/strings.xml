@@ -13,6 +13,7 @@
     <string name="ua_description">Passcode:</string>
     <string name="ua_btn_description">Enter</string>
     <string name="description">Type something:</string>
+    <string name="widget">Click to spotlight task(s)</string>
     <string name="cfm_description">Type \"confirm\" to proceed</string>
 
     <string name="channel_id">Id_Listsqre</string>
