@@ -5,19 +5,22 @@ import android.app.AlertDialog
 import android.content.Context
 
 object GlobalVar {
+    enum class DbNames(val dbname: String) {
+        // list of hardcoded Db names
+        MAINLISTDB          ("FeedReader.db"),
+        SPOTLIGHTDB         ("SpotlightReader.db"),
+    }
+
     enum class ErrorType(val code: Int, val description: String) {
         INVALID_INPUT       (900, "Invalid input provided"),
         DUPLICATE_INPUT     (901, "Duplicate input provided"),
         EMPTY_INPUT         (902, "Empty input provided"),
-        INVALID_TIME        (904, "Invalid 24h time provided"),
         PERMISSION_DENIED   (905, "Please enable notification setting\n" +
                                   "Settings > Notification > Listsqre"),
     }
 
     const val EOF: Int = -1
-    const val notifId: Int = 0
     const val clickThreshold: Int = 1000
-
     const val DELIMITER: Char = '|'
     const val cfmText: String = "confirm"
 

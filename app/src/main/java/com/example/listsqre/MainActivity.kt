@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         title = "Listsqre"
         Listsqre.deleteAllNodes()
-        readFromDb(this)
+        readFromDb(this, GlobalVar.DbNames.MAINLISTDB.dbname)
         refreshView()
     }
 
@@ -61,7 +61,10 @@ class MainActivity : ComponentActivity() {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            // something else
+            /*
+            val intent = Intent(this, SLActivity::class.java)
+            startActivity(intent)
+            */
         }
 
         resetA.setOnClickListener {
@@ -78,7 +81,7 @@ class MainActivity : ComponentActivity() {
                 if(rstTxt == GlobalVar.cfmText) {
                     deleteSelTextFile(this, Listsqre.getEntireSelList())
                     Listsqre.deleteSelNodes()
-                    updateDb(this)
+                    updateDb(this, GlobalVar.DbNames.MAINLISTDB.dbname)
                 } else {
                     if(rstTxt.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
@@ -103,10 +106,12 @@ class MainActivity : ComponentActivity() {
             builder.setView(dialogView)
             builder.setPositiveButton(R.string.proceed) { dialog, _ ->
                 val listName = createTxt.text.toString()
-                if(listName.isNotEmpty() && !checkDuplicate(this, listName)) {
+                if(listName.isNotEmpty() &&
+                    !checkDuplicate(this, GlobalVar.DbNames.MAINLISTDB.dbname, listName)) {
                     createTextFile(this, listName)
                     Listsqre.addNode(listName, listName)
-                    feedIntoDb(this, Listsqre.getRecent().getId(), listName, listName)
+                    feedIntoDb(this, GlobalVar.DbNames.MAINLISTDB.dbname,
+                        Listsqre.getRecent().getId(), listName, listName)
                 } else {
                     if(listName.isEmpty()) {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
@@ -182,7 +187,7 @@ class MainActivity : ComponentActivity() {
                     val dispName = dialogTxt.text.toString()
                     if(dispName.isNotEmpty()) {
                         obj.setDisplayname(dispName)
-                        updateDb(this)
+                        updateDb(this, GlobalVar.DbNames.MAINLISTDB.dbname)
                     } else {
                         GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
                     }

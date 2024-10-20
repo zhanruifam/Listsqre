@@ -19,14 +19,17 @@ object TableTemplate : BaseColumns { // Schema for Listsqre
         "CREATE TABLE $TABLE_NAME (" +
                 "$COLUMN_NAME_ID INTEGER PRIMARY KEY, " +
                 "$COLUMN_NAME_TITLE TEXT, " +
-                "$COLUMN_NAME_TITLE_02)"
+                "$COLUMN_NAME_TITLE_02 TEXT)"
 
     const val SQL_DELETE_ENTRIES =
         "DROP TABLE IF EXISTS $TABLE_NAME"
 }
 
-class ListsqreDbHelper(context: Context) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class ListsqreDbHelper(
+    context: Context,
+    dbName: String,
+    version: Int = DATABASE_VERSION
+) : SQLiteOpenHelper(context, dbName, null, version) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(TableTemplate.SQL_CREATE_ENTRIES)
     }
@@ -45,17 +48,17 @@ class ListsqreDbHelper(context: Context) :
     companion object {
         // If you change the database schema, you must increment the database version.
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "FeedReader.db"
+        // const val DATABASE_NAME = "FeedReader.db"
     }
 }
 
 // ----- global CRUD methods for handling database ----- //
 
-fun feedIntoDb(context: Context, Id: Int, listName: String, displayName: String) {
-    val dbHelper = ListsqreDbHelper(context)
+fun feedIntoDb(context: Context, dbName: String, id: Int, listName: String, displayName: String) {
+    val dbHelper = ListsqreDbHelper(context, dbName)
     val db = dbHelper.writableDatabase
     val values = ContentValues().apply {
-        put(TableTemplate.COLUMN_NAME_ID, Id)
+        put(TableTemplate.COLUMN_NAME_ID, id)
         put(TableTemplate.COLUMN_NAME_TITLE, listName)
         put(TableTemplate.COLUMN_NAME_TITLE_02, displayName)
     }
@@ -63,8 +66,8 @@ fun feedIntoDb(context: Context, Id: Int, listName: String, displayName: String)
     db.close()
 }
 
-fun checkDuplicate(context: Context, checkStr: String): Boolean {
-    val dbHelper = ListsqreDbHelper(context)
+fun checkDuplicate(context: Context, dbName: String, checkStr: String): Boolean {
+    val dbHelper = ListsqreDbHelper(context, dbName)
     val db = dbHelper.readableDatabase
     val cursor = db.query(TableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
@@ -80,8 +83,8 @@ fun checkDuplicate(context: Context, checkStr: String): Boolean {
     return false
 }
 
-fun readFromDb(context: Context) {
-    val dbHelper = ListsqreDbHelper(context)
+fun readFromDb(context: Context, dbName: String) {
+    val dbHelper = ListsqreDbHelper(context, dbName)
     val db = dbHelper.readableDatabase
     val cursor = db.query(TableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
@@ -95,13 +98,13 @@ fun readFromDb(context: Context) {
     db.close()
 }
 
-fun updateDb(context: Context) {
-    val dbHelper = ListsqreDbHelper(context)
+fun updateDb(context: Context, dbName: String) {
+    val dbHelper = ListsqreDbHelper(context, dbName)
     val db = dbHelper.writableDatabase
     if(Listsqre.getEntireList().isNotEmpty() && !Listsqre.empty) {
         db.delete(TableTemplate.TABLE_NAME, null, null)
         for(obj in Listsqre.getEntireList()) {
-            feedIntoDb(context, obj.getId(), obj.getListname(), obj.getDisplayname())
+            feedIntoDb(context, dbName, obj.getId(), obj.getListname(), obj.getDisplayname())
         }
     } else if(Listsqre.getEntireList().isEmpty() && Listsqre.empty) {
         db.delete(TableTemplate.TABLE_NAME, null, null)
