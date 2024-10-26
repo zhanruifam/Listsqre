@@ -66,29 +66,6 @@ class ListOfListsqre {
         fun clrSelList() {
             selectedList.clear()
         }
-        fun createNotiTitle(): String {
-            var title = ""
-            title += if(selectedList.isEmpty()) {
-                "Check Listsqre"
-            } else {
-                "Check item(s):"
-            }
-            return title
-        }
-        fun createNotiDescr(): String {
-            var descr = ""
-            if(selectedList.isEmpty()) {
-                return descr
-            } else {
-                for(obj in selectedList) {
-                    descr += obj.getElemname()
-                    if(obj != selectedList.last()) {
-                        descr += ", "
-                    } else { /* do nothing */ }
-                }
-            }
-            return descr
-        }
         private fun reassignTaskID() {
             for((iterator, obj) in getEntireList().withIndex()) {
                 obj.setId(iterator)

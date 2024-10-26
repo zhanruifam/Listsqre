@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         permissionReq()
 
         wgetCard = findViewById(R.id.repCard)
-        wgetList = findViewById(R.id.n_list) // TODO: widget functionality
+        wgetList = findViewById(R.id.n_list)
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
 
@@ -53,18 +53,15 @@ class MainActivity : ComponentActivity() {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            // something else
+            // TODO: change implementation to full Db
         }
 
-        //  TODO: widget functionality
         wgetList.setOnClickListener {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            /*
             val intent = Intent(this, SLActivity::class.java)
             startActivity(intent)
-            */
         }
 
         resetA.setOnClickListener {

@@ -12,11 +12,11 @@ object GlobalVar {
     }
 
     enum class ErrorType(val code: Int, val description: String) {
+        // list of error message types
         INVALID_INPUT       (900, "Invalid input provided"),
         DUPLICATE_INPUT     (901, "Duplicate input provided"),
         EMPTY_INPUT         (902, "Empty input provided"),
-        PERMISSION_DENIED   (905, "Please enable notification setting\n" +
-                                  "Settings > Notification > Listsqre"),
+        PERMISSION_DENIED   (905, "Please enable notification setting"),
     }
 
     const val EOF: Int = -1

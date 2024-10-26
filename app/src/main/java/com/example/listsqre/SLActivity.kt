@@ -15,11 +15,9 @@ import androidx.activity.ComponentActivity
 class SLActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
-    private lateinit var resetTxt: TextView
     private lateinit var cardText: TextView
     private lateinit var checkBox: CheckBox
     private lateinit var options: Button
-    private lateinit var resetA: Button
 
     private var lastClickTime: Long = 0
 
@@ -27,43 +25,13 @@ class SLActivity : ComponentActivity() {
         super.onStart()
         title = "Spotlight Item(s)"
         SpotlightList.deleteAllNodes()
-        // read from Db
+        readFromDb(this, GlobalVar.DbNames.SPOTLIGHTDB.dbname)
         refreshView()
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spotlightlistpage)
-
-        resetA = findViewById(R.id.rst)
-
-        resetA.setOnClickListener {
-            if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
-                return@setOnClickListener
-            } else { lastClickTime = System.currentTimeMillis() }
-            val rstdialogView = layoutInflater.inflate(R.layout.rstdialogview, FrameLayout(this))
-            resetTxt = rstdialogView.findViewById(R.id.rstdialogTxt)
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Delete selected?")
-            builder.setView(rstdialogView)
-            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
-                val rstTxt = resetTxt.text.toString()
-                if(rstTxt == GlobalVar.cfmText) {
-                    SpotlightList.deleteSelNodes()
-                    // update Db
-                } else {
-                    if(rstTxt.isEmpty()) {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_INPUT)
-                    }
-                }
-                refreshView()
-                dialog.dismiss()
-            }
-            builder.create().show()
-        }
     }
 
     override fun onDestroy() {
@@ -81,6 +49,7 @@ class SLActivity : ComponentActivity() {
 
     private fun showCardViews() {
         for(obj in SpotlightList.getEntireList()) {
+            // TODO: will need a different cardview with delete button and no check box
             val card = layoutInflater.inflate(R.layout.cardview, CardView(this))
             card.setOnClickListener {
                 if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {

@@ -48,7 +48,6 @@ class ListsqreDbHelper(
     companion object {
         // If you change the database schema, you must increment the database version.
         const val DATABASE_VERSION = 1
-        // const val DATABASE_NAME = "FeedReader.db"
     }
 }
 

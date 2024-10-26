@@ -48,7 +48,7 @@ class ListActivity : ComponentActivity() {
         dispName = intent.getStringExtra("DISPNAME").toString()
 
         wgetCard = findViewById(R.id.repCard)
-        wgetList = findViewById(R.id.n_list) // TODO: widget functionality
+        wgetList = findViewById(R.id.n_list)
         resetA = findViewById(R.id.rst)
         create = findViewById(R.id.add)
 
@@ -57,17 +57,22 @@ class ListActivity : ComponentActivity() {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
             // something else
+            if (ListOfListsqre.getEntireSelList().isNotEmpty()) {
+                for(obj in ListOfListsqre.getEntireSelList()) {
+                    // SpotlightList.addNode(obj.getElemname())
+                    // do something
+                }
+            } else {
+                // do something
+            }
         }
 
-        //  TODO: widget functionality
         wgetList.setOnClickListener {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            /*
             val intent = Intent(this, SLActivity::class.java)
             startActivity(intent)
-            */
         }
 
         resetA.setOnClickListener {
