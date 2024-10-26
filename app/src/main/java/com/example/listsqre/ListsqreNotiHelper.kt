@@ -39,11 +39,22 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
     val permission = "android.permission.POST_NOTIFICATIONS"
     val permissionState = ContextCompat.checkSelfPermission(context, permission)
     if(permissionState == PackageManager.PERMISSION_GRANTED) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         val builder =
             NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
             setSmallIcon(R.drawable.notification_ic)
             setContentTitle(data.t)
             setContentText(data.d)
+            setContentIntent(pendingIntent)
+            // setAutoCancel(true) // dismisses the notification when clicked
             priority = NotificationCompat.PRIORITY_HIGH
         }
         val notificationManager = NotificationManagerCompat.from(context)
