@@ -86,7 +86,7 @@
             android:layout_weight="1"
             android:text="@string/reset"
             android:textSize="18sp"
-            android:textColor="#254252"
+            android:textColor="#eab56f"
             android:background="@drawable/default_btn_background" />
 
         <Space
@@ -100,7 +100,7 @@
             android:layout_weight="1"
             android:text="@string/create"
             android:textSize="18sp"
-            android:textColor="#254252"
+            android:textColor="#eab56f"
             android:background="@drawable/default_btn_background" />
 
     </LinearLayout>

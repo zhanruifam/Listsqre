@@ -19,7 +19,7 @@ class NotiActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        title = "Notification List"
+        title = "Notifications"
         refreshView()
     }
 
