@@ -39,7 +39,7 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
     val permission = "android.permission.POST_NOTIFICATIONS"
     val permissionState = ContextCompat.checkSelfPermission(context, permission)
     if(permissionState == PackageManager.PERMISSION_GRANTED) {
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, NotiActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(
@@ -50,7 +50,7 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
         )
         val builder =
             NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
-            setSmallIcon(R.drawable.notification_ic)
+            setSmallIcon(R.mipmap.listsqre_new_ic)
             setContentTitle(data.t)
             setContentText(data.d)
             setContentIntent(pendingIntent)

@@ -4,24 +4,34 @@
     android:viewportWidth="35.0"
     android:viewportHeight="35.0">
 
+    <!-- First point -->
+    <path
+        android:strokeWidth="5"
+        android:strokeColor="#eab56f" android:pathData="M1,8 6,8" />
+
+    <!-- Second point -->
+    <path
+        android:strokeWidth="5"
+        android:strokeColor="#eab56f" android:pathData="M1,17.5 6,17.5" />
+
+    <!-- Third point -->
+    <path
+        android:strokeWidth="5"
+        android:strokeColor="#eab56f" android:pathData="M1,27 6,27" />
+
     <!-- First line -->
     <path
-        android:strokeWidth="6"
-        android:strokeColor="#eab56f" android:pathData="M1,4 34,4" />
+        android:strokeWidth="5"
+        android:strokeColor="#eab56f" android:pathData="M9,8 34,8" />
 
     <!-- Second line -->
     <path
-        android:strokeWidth="6"
-        android:strokeColor="#eab56f" android:pathData="M1,13 L34,13" />
+        android:strokeWidth="5"
+        android:strokeColor="#eab56f" android:pathData="M9,17.5 34,17.5" />
 
     <!-- Third line -->
     <path
-        android:strokeWidth="6"
-        android:strokeColor="#eab56f" android:pathData="M1,22 L34,22" />
-
-    <!-- Fourth line -->
-    <path
-        android:strokeWidth="6"
-        android:strokeColor="#eab56f" android:pathData="M1,31 L34,31" />
+        android:strokeWidth="5"
+        android:strokeColor="#eab56f" android:pathData="M9,27 34,27" />
 
 </vector>

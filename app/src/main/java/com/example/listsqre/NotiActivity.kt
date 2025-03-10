@@ -20,6 +20,8 @@ class NotiActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         title = "Notifications"
+        NotiOfListsqre.deleteAllNodes()     // clear list before re-init happens
+        readFromNotiDb(this)                // notification re-init happens here
         refreshView()
     }
 
