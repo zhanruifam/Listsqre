@@ -27,8 +27,8 @@ class NotiOfListsqre {
             return minute
         }
         fun getFormattedString(): String {
-            val time: String = String.format("~ %02d:%02d", hour, minute)
-            return time + "\n" + title + "\n" + description
+            // val time: String = String.format("~ %02d:%02d", hour, minute) /* not used */
+            return title + "\n" + description
         }
     }
 

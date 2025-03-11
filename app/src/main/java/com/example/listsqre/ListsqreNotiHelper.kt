@@ -15,12 +15,8 @@ import androidx.core.app.NotificationManagerCompat
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if(!isNotiDbEmpty(context)) {
-            createNotificationChannel(context)
-            createNotification(context, readNotiFirstEntry(context))
-            autoUpdateNotiDb(context)
-            scheduleAlarm(context, readNotiFirstEntry(context))
-        } else { /* do nothing */ }
+        createNotificationChannel(context)
+        createNotification(context)
     }
 }
 
@@ -35,6 +31,36 @@ private fun createNotificationChannel(context: Context) {
     notificationManager.createNotificationChannel(channel)
 }
 
+private fun createNotification(context: Context) {
+    val permission = "android.permission.POST_NOTIFICATIONS"
+    val permissionState = ContextCompat.checkSelfPermission(context, permission)
+    if(permissionState == PackageManager.PERMISSION_GRANTED) {
+        val intent = Intent(context, NotiActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val builder =
+            NotificationCompat.Builder(context, context.getString(R.string.channel_id)).apply {
+                setSmallIcon(R.mipmap.listsqre_new_ic)
+                setContentTitle("Scheduled Event")
+                setContentText("It's time to check for pending items")
+                setContentIntent(pendingIntent)
+                // setAutoCancel(true) // dismisses the notification when clicked
+                priority = NotificationCompat.PRIORITY_HIGH
+            }
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.notify(GlobalVar.notifId, builder.build())
+    } else {
+        // ActivityCompat.requestPermissions()
+    }
+}
+
+/* not used in this version
 private fun createNotification(context: Context, data: ListsqreNotiData) {
     val permission = "android.permission.POST_NOTIFICATIONS"
     val permissionState = ContextCompat.checkSelfPermission(context, permission)
@@ -63,7 +89,9 @@ private fun createNotification(context: Context, data: ListsqreNotiData) {
         // ActivityCompat.requestPermissions()
     }
 }
+*/
 
+/* not used in this version
 fun autoUpdateNotiDb(context: Context) {
     // to shift first entry to last in Db
     NotiOfListsqre.deleteAllNodes() // to clear list before update
@@ -71,7 +99,54 @@ fun autoUpdateNotiDb(context: Context) {
     updateNotiDb(context)
     NotiOfListsqre.deleteAllNodes() // to clear list after update
 }
+*/
 
+fun scheduleAlarm(context: Context, notifyHour: Int, notifyMin: Int) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val calendar = Calendar.getInstance().apply {
+        timeInMillis = System.currentTimeMillis()
+        set(Calendar.HOUR_OF_DAY, notifyHour)
+        set(Calendar.MINUTE, notifyMin)
+        set(Calendar.SECOND, 0)
+        if(timeInMillis <= System.currentTimeMillis()) {
+            add(Calendar.DATE, 1)
+        } else { /* do nothing */ }
+    }
+    val alarmIntent = Intent(context, AlarmReceiver::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(
+        context,
+        0,
+        alarmIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+    try {
+        /* not used in this version
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
+        */
+        if (alarmManager.canScheduleExactAlarms()) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+        } else {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+        }
+    } catch (e: SecurityException) {
+        // do nothing
+    }
+}
+
+/* not used in this version
 fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val calendar = Calendar.getInstance().apply {
@@ -108,6 +183,7 @@ fun scheduleAlarm(context: Context, data: ListsqreNotiData) {
         // do nothing
     }
 }
+*/
 
 /* --- deprecated, replaced by checking empty Db ---
 fun deleteNotification(context: Context, notificationId: Int) {

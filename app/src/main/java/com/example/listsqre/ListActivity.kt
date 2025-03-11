@@ -2,6 +2,7 @@ package com.example.listsqre
 
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import android.widget.Button
 import android.content.Intent
 import android.app.AlertDialog
@@ -18,10 +19,10 @@ class ListActivity : ComponentActivity() {
     private lateinit var dialogTxt: TextView
     private lateinit var createTxt: TextView
     private lateinit var resetTxt: TextView
-    private lateinit var hourNoti: TextView
-    private lateinit var minuNoti: TextView
+    // private lateinit var hourNoti: TextView /* not used in this version */
+    // private lateinit var minuNoti: TextView /* not used in this version */
     private lateinit var cardText: TextView
-    private lateinit var notiText: TextView
+    // private lateinit var notiText: TextView /* not used in this version */
     private lateinit var checkBox: CheckBox
     private lateinit var fileName: String
     private lateinit var dispName: String
@@ -56,36 +57,14 @@ class ListActivity : ComponentActivity() {
             if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
                 return@setOnClickListener
             } else { lastClickTime = System.currentTimeMillis() }
-            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
-            hourNoti = notiView.findViewById(R.id.hour)
-            minuNoti = notiView.findViewById(R.id.min)
-            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Set reminder for selected?")
-            builder.setView(notiView)
-            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
-                val hourTxt = hourNoti.text.toString()
-                val minTxt = minuNoti.text.toString()
-                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
-                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
-                        NotiOfListsqre.addNode(
-                            ListOfListsqre.createNotiTitle(),
-                            ListOfListsqre.createNotiDescr(),
-                            hourTxt.toInt(),
-                            minTxt.toInt())
-                        updateNotiDb(this)
-                        scheduleAlarm(this, readNotiFirstEntry(this))
-                    } else {
-                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
-                    }
-                } else {
-                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
-                }
-                refreshView()
-                dialog.dismiss()
-            }
-            builder.create().show()
+            NotiOfListsqre.addNode(
+                ListOfListsqre.createNotiTitle(),
+                ListOfListsqre.createNotiDescr(),
+                0,
+                0
+            )
+            updateNotiDb(this)
+            Toast.makeText(this, "Item(s) added", Toast.LENGTH_SHORT).show()
         }
 
         notiList.setOnClickListener {
@@ -155,15 +134,17 @@ class ListActivity : ComponentActivity() {
     private fun refreshView() {
         Listsqre.clrSelList()
         ListOfListsqre.clrSelList()
-        updateNotificationTxt()
+        // updateNotificationTxt()
         removeAllCardViews()
         showCardViews()
     }
 
+    /* not used in this version
     private fun updateNotificationTxt() {
         notiText = findViewById(R.id.n_info)
         notiText.text = upcomingNoti(this)
     }
+    */
 
     private fun showCardViews() {
         for(obj in ListOfListsqre.getEntireList()) {

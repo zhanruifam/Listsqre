@@ -1,6 +1,7 @@
 package com.example.listsqre
 
 import android.os.Bundle
+import android.widget.Toast
 import android.widget.Button
 import android.app.AlertDialog
 import android.widget.TextView
@@ -13,7 +14,10 @@ class NotiActivity : ComponentActivity() {
     private lateinit var cardLists: LinearLayout
     private lateinit var dialogTxt: TextView
     private lateinit var cardText: TextView
+    private lateinit var hourNoti: TextView
+    private lateinit var minuNoti: TextView
     private lateinit var options: Button
+    private lateinit var notify: Button
 
     private var lastClickTime: Long = 0
 
@@ -28,6 +32,39 @@ class NotiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.notipage)
+
+        notify = findViewById(R.id.notify)
+
+        notify.setOnClickListener {
+            if (System.currentTimeMillis() - lastClickTime < GlobalVar.clickThreshold) {
+                return@setOnClickListener
+            } else { lastClickTime = System.currentTimeMillis() }
+            val notiView = layoutInflater.inflate(R.layout.notidialogview, FrameLayout(this))
+            hourNoti = notiView.findViewById(R.id.hour)
+            minuNoti = notiView.findViewById(R.id.min)
+            hourNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            minuNoti.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Set reminder for selected?")
+            builder.setView(notiView)
+            builder.setPositiveButton(R.string.proceed) { dialog, _ ->
+                val hourTxt = hourNoti.text.toString()
+                val minTxt = minuNoti.text.toString()
+                if(hourTxt.isNotEmpty() && minTxt.isNotEmpty()) {
+                    if((hourTxt.toInt() in 0..23) && (minTxt.toInt() in 0..59)) {
+                        scheduleAlarm(this, hourTxt.toInt(), minTxt.toInt())
+                        Toast.makeText(this, "Notification set", Toast.LENGTH_SHORT).show()
+                    } else {
+                        GlobalVar.errDialog(this, GlobalVar.ErrorType.INVALID_TIME)
+                    }
+                } else {
+                    GlobalVar.errDialog(this, GlobalVar.ErrorType.EMPTY_INPUT)
+                }
+                refreshView()
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
     }
 
     override fun onDestroy() {
@@ -64,7 +101,7 @@ class NotiActivity : ComponentActivity() {
                 } else { lastClickTime = System.currentTimeMillis() }
                 NotiOfListsqre.deleteNode(obj.getId())
                 updateNotiDb(this)
-                scheduleAlarm(this, readNotiFirstEntry(this))
+                // scheduleAlarm(this, readNotiFirstEntry(this)) /* not used in this version */
                 refreshView()
             }
             cardText = card.findViewById(R.id.info_text)

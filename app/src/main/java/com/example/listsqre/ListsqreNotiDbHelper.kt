@@ -108,15 +108,15 @@ fun readNotiFirstEntry(context: Context): ListsqreNotiData { // get first entry 
     val db = dbHelper.readableDatabase
     val cursor = db.query(NotiTableTemplate.TABLE_NAME, null, null, null, null, null, null)
     with(cursor) {
-        if(moveToFirst()) {
+        data = if(moveToFirst()) {
             val t = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME))
             val d = getString(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_02))
             val h = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_03))
             val m = getInt(getColumnIndexOrThrow(NotiTableTemplate.COLUMN_NAME_04))
-            data = ListsqreNotiData(t, d, h, m)
+            ListsqreNotiData(t, d, h, m)
         } else {
             // empty Db
-            data = ListsqreNotiData("", "", 0, 0)
+            ListsqreNotiData("", "", 0, 0)
         }
     }
     cursor.close()
@@ -124,6 +124,7 @@ fun readNotiFirstEntry(context: Context): ListsqreNotiData { // get first entry 
     return data
 }
 
+/* not used in this version
 fun upcomingNoti(context: Context): String {
     var rtnStr = "Set daily reminder here\nNext reminder: "
     val dbHelper = ListsqreNotiDbHelper(context)
@@ -142,6 +143,7 @@ fun upcomingNoti(context: Context): String {
     db.close()
     return rtnStr
 }
+*/
 
 fun isNotiDbEmpty(context: Context): Boolean {
     val dbHelper = ListsqreNotiDbHelper(context)

@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#40eab56f"
+                android:text="@string/add_noti_list_desc"
                 android:textColor="#eab56f"
                 android:textSize="24sp" />
 
