@@ -1,6 +1,6 @@
 package com.example.listsqre
 
-import java.util.Calendar
+// import java.util.Calendar /* not used in this version */
 
 class NotiOfListsqre {
     class Node(private var id: Int,
@@ -40,7 +40,7 @@ class NotiOfListsqre {
         fun deleteNode(id: Int) {
             idGen--
             mutableList.removeAt(id)
-            sortWithDay(mutableList)
+            // sortWithDay(mutableList) /* not used in this version */
             reassignTaskID()
             if(mutableList.isEmpty()) {
                 idGen = 0
@@ -53,16 +53,21 @@ class NotiOfListsqre {
             empty = true
         }
         fun addNode(t: String, d: String, h: Int, m: Int) {
+            /* not used in this version
             if(!duplicateNoti(h, m)) {
                 mutableList.add(Node(idGen++, t, d, h, m))
             } else { /* do nothing */ }
-            sortWithDay(mutableList)
+            */
+            mutableList.add(Node(idGen++, t, d, h, m)) // TODO: this is just a temp solution
+            // sortWithDay(mutableList) /* not used in this version */
             reassignTaskID()
             empty = false
         }
         fun getEntireList(): List<Node> {
             return mutableList.toList()
         }
+
+        /* not used in this version
         private fun duplicateNoti(h: Int, m: Int): Boolean {
             for(obj in mutableList) {
                 if(h == obj.getH() && m == obj.getM()) {
@@ -71,6 +76,9 @@ class NotiOfListsqre {
             }
             return false
         }
+        */
+
+        /* not used in this version
         private fun sortWithDay(list: List<Node>) {
             val currTime = Calendar.getInstance()
             val currHour = currTime.get(Calendar.HOUR_OF_DAY)
@@ -90,6 +98,8 @@ class NotiOfListsqre {
             mutableList.addAll(tmpCurrDay)
             mutableList.addAll(tmpNextDay)
         }
+        */
+
         private fun reassignTaskID() {
             for((iterator, obj) in getEntireList().withIndex()) {
                 obj.setId(iterator)
